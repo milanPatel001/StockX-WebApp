@@ -18,14 +18,14 @@ function Table(props) {
   }
 
   function pricesign(price) {
-    let pricesign = "text-m font-bold ";
+    let pricesign = "text-sm pr-2 sm:text-base font-bold ";
     pricesign += price < 0 ? "text-rose-700" : "text-green-700";
     return pricesign;
   }
 
   function percentsign(percent) {
     let percentsign =
-      "pr-0.5 pl-1 py-1 text-base font-bold rounded-lg text-center ";
+      "pr-0.5 pl-1 py-1 text-xs sm:text-base font-bold rounded-lg text-center ";
     percentsign +=
       percent > 0 ? "bg-green-100 text-green-800" : "bg-rose-100 text-rose-700";
     return percentsign;
@@ -62,7 +62,7 @@ function Table(props) {
   }
 
   return (
-    <React.Fragment>
+    <div>
       <div className="flex flex-row pt-1.5 pb-4 pl-2 gap-2">
         <button
           className={activeTab("Actives")}
@@ -89,16 +89,16 @@ function Table(props) {
           <tbody>
             {marketTab.map((stock) => (
               <tr
-                className="bg-white border-b hover:bg-gray-100 hover:z-10 cursor-pointer"
+                className="bg-white border-b transition duration-300 hover:scale-125 cursor-pointer"
                 onClick={() => router.push("/home/" + stock.ticker)}
               >
-                <td className="py-3 w-fit">
+                <td className="py-3 pr-1 w-fit">
                   <div className={tickerBG()}>{stock.ticker}</div>
                 </td>
-                <td className="bg-gray font-normal text-black text-lg">
+                <td className="bg-gray font-normal text-black text-m sm:text-lg">
                   {stock.name}
                 </td>
-                <td className="text-m font-semibold text-black">
+                <td className="text-sm sm:text-base pr-3 font-semibold text-black">
                   ${stock.lastPrice.toFixed(3)}
                 </td>
                 <td className={pricesign(stock.netChange)}>
@@ -106,7 +106,7 @@ function Table(props) {
                 </td>
                 <td>
                   <div className={percentsign(stock.percentNetChange)}>
-                    {stock.percentNetChange.toFixed(3)}%
+                    {stock.percentNetChange.toFixed(2)}%
                   </div>
                 </td>
               </tr>
@@ -114,7 +114,7 @@ function Table(props) {
           </tbody>
         </table>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 

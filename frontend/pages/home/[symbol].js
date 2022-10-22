@@ -73,27 +73,36 @@ function StockPage(props) {
 
   return (
     <React.Fragment>
-      <div className="container h-screen mx-auto bg-gray-300/50">
+      <div className="h-screen mx-auto">
         <Navbar />
 
-        <div className="flex flex-row h-auto p-2 py-4 gap-7 justify-center bg-gray-50">
+        <div className="flex flex-row h-auto p-2 py-4 gap-7 justify-center">
           <StockCardMini />
           <StockCardMini />
-          <StockCardMini />
-          <StockCardMini />
-          <StockCardMini />
+
+          <div className="hidden md:inline-flex">
+            <StockCardMini />
+          </div>
+
+          <div className="hidden lg:inline-flex">
+            <StockCardMini />
+          </div>
+
+          <div className="hidden xl:inline-flex">
+            <StockCardMini />
+          </div>
         </div>
 
-        <div className="container relative p-4 bg-gray-100">
+        <div className="p-4">
           <Searchbar />
         </div>
 
-        <div className="container p-3 h-auto bg-white">
-          <div className="container p-2 h-full w-3/4 mx-auto bg-white">
-            <div className="flex flex-nowrap pb-3">
-              <div className="basis-5/7 flex flex-col pl-10 h-auto p-2 bg-white divide-y-2 divide-gray-200">
+        <div className="p-3 h-auto">
+          <div className="p-2 h-full w-3/4 mx-auto">
+            <div className="flex flex-col lg:flex-row pb-3 rounded-xl shadow-xl my-5 border-2">
+              <div className="basis-5/7 flex flex-col lg:pl-10 h-auto p-2 divide-y-2 divide-gray-200 py-3">
                 <div className="flex flex-row">
-                  <div className="inline-block ml-1 text-sm text-center rounded-lg font-bold text-white py-1 my-3 mt-3.5 px-4 bg-red-400">
+                  <div className="inline-block ml-1 text-sm text-center rounded-lg font-bold text-white py-2 my-5 mt-3.5 px-4 bg-red-400">
                     {stockData.underlyingSymbol}
                   </div>
                   <div className="inline-block p-2 ml-1.5 font-semibold text-3xl">
@@ -114,8 +123,8 @@ function StockPage(props) {
                   </div>
                 </div>
 
-                <div className="container py-4">
-                  <div className="flex flex-row pt-1.5 pb-4 pl-2 gap-2">
+                <div className="py-4">
+                  <div className="flex pt-1.5 pb-4 pl-2 gap-2">
                     <button
                       className={activeTab("1D")}
                       onClick={() => setCurrentTab("1D")}
@@ -143,10 +152,11 @@ function StockPage(props) {
                 <SideBlock stockData={stockData} />
               </div>
             </div>
-            <div className="container">
-              <div className="inline-block bg-white px-3 pb-4 pt-3 font-semibold text-3xl">
+
+            <div>
+              <p className="bg-white px-3 pb-4 pt-3 font-semibold text-3xl">
                 About
-              </div>
+              </p>
               <div className="container border border-gray-400 rounded-xl bg-white mx-auto py-2 px-4 ">
                 <div
                   className="container p-2 text-lg first-line:uppercase first-line:tracking-widest
@@ -157,12 +167,14 @@ function StockPage(props) {
                 </div>
               </div>
             </div>
-            <div className="inline-block w-full bg-white pl-4 pt-3 text-xl font-semibold">
+            <div className="hidden xl:inline-block w-full pl-4 pt-3 mt-3 text-xl font-semibold">
               You might Like:
             </div>
-            <div className="flex flex-row h-auto p-2 py-4 gap-7 bg-gray-50 justify-center">
+            <div className="flex flex-row h-auto p-2 py-4 gap-7 justify-center">
               {modifiedStocks.map((stock) => (
-                <StockCard stock={stock} />
+                <div className="hidden xl:inline-flex">
+                  <StockCard stock={stock} />
+                </div>
               ))}
             </div>
           </div>

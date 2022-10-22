@@ -38,7 +38,7 @@ function StockCardMini(props) {
 
   return (
     <div
-      className="flex flex-col border-2 border-slate-300 gap-1 h-16 w-52 py-1 px-1 rounded-xl bg-white hover:bg-gray-100 cursor-pointer"
+      className="flex flex-col border-2 border-slate-300 gap-1 h-16 w-52 py-1 px-1 rounded-xl bg-white transition duration-300 hover:bg-gray-50 hover:scale-125 cursor-pointer"
       onClick={() => router.push("/home/" + data.symbol)}
     >
       <div className="flex flex-row h-6">

@@ -40,9 +40,9 @@ function StockCard(props) {
   }
 
   return (
-    <React.Fragment>
+    <div>
       <div
-        className="flex flex-col border-2 border-slate-300 gap-1.5 h-fit w-60 rounded-xl bg-white p-2 hover:bg-gray-100 cursor-pointer"
+        className="flex flex-col border-2 border-slate-300 gap-1.5 h-fit w-fit rounded-xl bg-white p-2 transition duration-300 hover:bg-gray-50 hover:scale-125 cursor-pointer shadow-xl"
         onClick={() => router.push("/home/" + props.stock.symbol)}
       >
         <div className={tickerBG()}>{props.stock.symbol}</div>
@@ -57,7 +57,7 @@ function StockCard(props) {
           +{props.stock.regularMarketChangePercent.toFixed(2)}
         </div>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 

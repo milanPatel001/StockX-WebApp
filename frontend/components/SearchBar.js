@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { autoComplete } from "../utils/stockService";
 import _ from "lodash";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 
 function Searchbar(props) {
   const [results, setResults] = useState([]);
@@ -43,41 +44,27 @@ function Searchbar(props) {
   };
 
   return (
-    <React.Fragment>
-      <div className="relative w-2/5 object-center ml-100">
-        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-          <svg
-            aria-hidden="true"
-            className="w-5 h-5 text-gray-500 dark:text-gray-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fillRule="evenodd"
-              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </div>
+    <div className="relative">
+      <div className="flex items-center bg-white rounded-lg border-2 shadow-md py-2 w-full">
+        <MagnifyingGlassIcon className="h-6 ml-2" />
+
         <input
           type="text"
-          id="simple-search"
+          //id="simple-search"
           onChange={handleSearchChange}
           //onBlur={() => setResults([])}
-          className="bg-white h-12 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:ring-current focus:border-slate-100 block w-full pl-10 p-2.5"
+          className="bg-white outline-none text-gray-900 text-sm flex-grow pl-2 p-2.5"
           placeholder="Search for stocks, crypto and more ...."
-          required
         />
       </div>
 
       {value.length !== 0 && (
-        <div className="container mx-101 absolute rounded-b-xl py-1 h-auto w-7/20 z-40 bg-white border border-gray-400 shadow-xl">
-          {results.slice(0, 6).map((stock) => (
-            <div className="container hover:bg-gray-100">
-              <div className="flex flex-row py-1.5 pl-2 divide-y">
+        <div className="absolute rounded-b-xl py-1 w-full h-auto z-40 bg-white border border-gray-400 shadow-xl">
+          {results?.slice(0, 6).map((stock) => (
+            <div className="hover:bg-gray-100">
+              <div className="grid grid-cols-9 items-center pb-4 pl-2 divide-y">
                 <div className={tickerBG()}>{stock.symbol}</div>
-                <div className="container hover:bg-gray-100 pl-3 font-semibold">
+                <div className="hover:bg-gray-100 font-semibold truncate col-span-8 ml-4 sm:ml-0">
                   <Link href={`/home/${stock.symbol}`}>{stock.name}</Link>
                 </div>
               </div>
@@ -85,7 +72,7 @@ function Searchbar(props) {
           ))}
         </div>
       )}
-    </React.Fragment>
+    </div>
   );
 }
 

@@ -9,7 +9,7 @@ function SideBlock(props) {
           PRIMARY EXCHANGE
         </div>
         <div className="container text-end text-lg pr-5 font-semibold">
-          {props.stockData.quote.fullExchangeName}
+          {props?.stockData?.quote.fullExchangeName}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -17,7 +17,7 @@ function SideBlock(props) {
           MARKET CAP
         </div>
         <div className="container text-end text-lg pr-5 font-semibold">
-          ${props.stockData.quote.marketCap}
+          ${props?.stockData?.quote.marketCap}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -25,7 +25,7 @@ function SideBlock(props) {
           52 WEEK RANGE
         </div>
         <div className="container text-end text-lg pr-5 font-semibold">
-          ${props.stockData.quote.fiftyTwoWeekRange}
+          ${props?.stockData?.quote.fiftyTwoWeekRange}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -33,7 +33,7 @@ function SideBlock(props) {
           CURRENCY
         </div>
         <div className="container text-end pr-5 text-lg font-semibold">
-          {props.stockData.quote.currency}
+          {props?.stockData?.quote.currency}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -41,7 +41,7 @@ function SideBlock(props) {
           P/E RATIO
         </div>
         <div className="container text-end pr-5 text-lg font-semibold">
-          {props.stockData.quote.forwardPE}
+          {props?.stockData?.quote.forwardPE}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -49,7 +49,7 @@ function SideBlock(props) {
           TRAILING P/E
         </div>
         <div className="container text-end pr-5 text-lg font-semibold">
-          {props.stockData.quote.trailingPE}
+          {props?.stockData?.quote.trailingPE}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -57,7 +57,7 @@ function SideBlock(props) {
           TRAILING ANNUAL DIVIDEND RATE
         </div>
         <div className="container text-end pr-5 text-lg font-semibold">
-          {props.stockData.quote.trailingAnnualDividendRate}
+          {props?.stockData?.quote.trailingAnnualDividendRate}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -65,7 +65,7 @@ function SideBlock(props) {
           DAY RANGE
         </div>
         <div className="container text-end pr-5 text-lg font-semibold">
-          ${props.stockData.quote.regularMarketDayRange}
+          ${props?.stockData?.quote.regularMarketDayRange}
         </div>
       </div>
     </div>
