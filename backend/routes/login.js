@@ -1,22 +1,40 @@
 const express = require("express");
 const router = express.Router();
-const { User } = require("../models/user");
-const bcrypt = require("bcrypt");
+
+const firebase = require("firebase-admin");
+const { db, auth } = require("../auth/firebaseConfig");
+
+router.post("/:uid", async (req, res) => {
+  //const { user } = await auth.getUser(req.params.uid);
+
+  try {
+    await db.collection("users").doc(req.params.uid).set(
+      {
+        lastSeen: firebase.firestore.FieldValue.serverTimestamp(),
+      },
+      { merge: true }
+    );
+
+    res.status(200).send("Updated lastseen");
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err);
+  }
+});
 
 router.post("/", async (req, res) => {
-  const user = await User.findOne({
-    username: req.body.username,
-    email: req.body.email,
-  });
+  auth
+    .getUserByEmail(req.body.email)
+    .then((user) => {
+      /*
+      if (user. !== req.body.password) {
+        return res.status(400).send("Wrong login or psk");
+      }
+      */
 
-  if (!user) return res.status(400).send("Invalid email or password");
-
-  const validPassword = await bcrypt.compare(req.body.password, user.password);
-  if (!validPassword) return res.status(400).send("Invalid email or password");
-
-  const token = user.generateAuthToken();
-
-  res.send(token);
+      res.status(200).send("Successfully logged in");
+    })
+    .catch((err) => res.status(400).send(err));
 });
 
 module.exports = router;

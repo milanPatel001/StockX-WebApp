@@ -4,11 +4,12 @@
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "csvtojson": "^2.0.10",
+    "dotenv": "^16.0.3",
     "express": "^4.17.2",
+    "firebase-admin": "^11.2.0",
     "joi": "^17.5.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
-    "mongoose": "^6.1.4",
     "nodemon": "^2.0.15",
     "request": "^2.88.2",
     "scramjet": "^4.36.1"
@@ -17,7 +18,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
