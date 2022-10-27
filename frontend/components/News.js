@@ -20,7 +20,7 @@ function NewsBigBlock({ news }) {
   return (
     <React.Fragment>
       {marketnews.map((n) => (
-        <div className="flex flex-col p-2 hover:bg-gray-100">
+        <div key={n.title} className="flex flex-col p-2 hover:bg-gray-100">
           <div className="container pb-2">
             <div className="inline-block font-semibold text-gray-500">
               {n.source}
@@ -31,7 +31,7 @@ function NewsBigBlock({ news }) {
           </div>
 
           <div className="container text-xl font-semibold pb-1 font-serif">
-            <Link href={n.link}>
+            <Link key={n.source} href={n.link}>
               <a target="_blank">{n.title}</a>
             </Link>
           </div>

@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 function StockCardMini(props) {
   const data = {
@@ -10,6 +11,19 @@ function StockCardMini(props) {
   };
 
   const router = useRouter();
+  const [color, setColor] = useState();
+
+  const colors = [
+    "bg-rose-600",
+    "bg-rose-800",
+    "bg-sky-500",
+    "bg-green-700",
+    "bg-green-500",
+    "bg-fuchsia-700",
+    "bg-fuchsia-900",
+    "bg-indigo-500",
+    "bg-green-600",
+  ];
 
   function percentsign(percent) {
     let percentsign = "pl-4 text-m ";
@@ -18,23 +32,15 @@ function StockCardMini(props) {
   }
 
   function tickerBG() {
-    const colors = [
-      "bg-rose-600",
-      "bg-rose-800",
-      "bg-sky-500",
-      "bg-green-700",
-      "bg-green-500",
-      "bg-fuchsia-700",
-      "bg-fuchsia-900",
-      "bg-indigo-500",
-      "bg-green-600",
-    ];
-
     let style =
       "inline-block ml-4 text-xs text-center rounded-lg font-bold text-white px-1 mt-1 py-0.5 ";
-    style += _.sample(colors);
+    style += color;
     return style;
   }
+
+  useEffect(() => {
+    setColor(_.sample(colors));
+  }, [data]);
 
   return (
     <div

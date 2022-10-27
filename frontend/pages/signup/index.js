@@ -1,8 +1,31 @@
 import React, { useState } from "react";
 import Link from "next/link";
+import { registerUser } from "../../utils/userService";
+import { useRouter } from "next/router";
 
 function Login(props) {
   const [error, setError] = useState();
+  const router = useRouter();
+
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+
+    // console.log(data.get("fullname"));
+
+    try {
+      await registerUser({
+        fullname: data.get("fullname"),
+        email: data.get("email"),
+        password: data.get("password"),
+      });
+
+      router.push("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <React.Fragment>
       <div className="container h-screen">
@@ -16,13 +39,14 @@ function Login(props) {
                 <div className="inline-block text-center text-xl pb-3 font-mono">
                   Create Account
                 </div>
-                <form>
+
+                <form onSubmit={handleSignUp}>
                   <div className="grid justify-items-center my-2 py-2">
                     <span className="block mr-80 text-sm font-medium text-slate-700 after:content-['*'] after:ml-0.5 after:text-red-500">
                       Name
                     </span>
                     <input
-                      type="text"
+                      name="fullname"
                       className="peer mt-1 justify-self-center px-3 py-2 bg-white border shadow-lg border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-1/2 rounded-md sm:text-sm focus:ring-1"
                       placeholder="Your full name"
                     />
@@ -32,7 +56,7 @@ function Login(props) {
                       Email
                     </span>
                     <input
-                      type="email"
+                      name="email"
                       className="peer mt-1 justify-self-center px-3 py-2 bg-white border shadow-lg border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-1/2 rounded-md sm:text-sm focus:ring-1"
                       placeholder="you@example.com"
                     />
@@ -48,17 +72,21 @@ function Login(props) {
                       Password
                     </span>
                     <input
-                      type="text"
+                      name="password"
                       className="peer mt-1 justify-self-center px-3 py-2 bg-white border shadow-lg border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-1/2 rounded-md sm:text-sm focus:ring-1"
                       placeholder="xyz..."
                     />
                   </div>
+                  <div className="flex justify-center py-7">
+                    <button
+                      type="submit"
+                      className="font-semibold text-white text-lg rounded-3xl cursor-pointer transition duration-300 ease-in-out hover:bg-red-500 z-40 bg-red-400 px-6 py-2 shadow-xl z-50"
+                    >
+                      Sign Up
+                    </button>
+                  </div>
                 </form>
-                <div className="flex justify-center py-7">
-                  <button className="font-semibold text-white text-lg rounded-3xl cursor-pointer transition duration-300 ease-in-out hover:bg-red-500 z-40 bg-red-400 px-6 py-2 shadow-xl z-50">
-                    Sign Up
-                  </button>
-                </div>
+
                 <div className="inline-block text-center text-lg pb-7">
                   Already a user?
                   <div className="inline-block px-2 text-lg">
@@ -77,3 +105,11 @@ function Login(props) {
 }
 
 export default Login;
+
+/*
+{
+        fullname: data.get("fullname"),
+        email: data.get("email"),
+        password: data.get("password"),
+      }
+*/

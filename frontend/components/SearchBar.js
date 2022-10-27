@@ -45,23 +45,25 @@ function Searchbar(props) {
 
   return (
     <div className="relative">
-      <div className="flex items-center bg-white rounded-lg border-2 shadow-md py-2 w-full">
-        <MagnifyingGlassIcon className="h-6 ml-2" />
+      <div className="flex items-center rounded-t-xl border-2 shadow-md py-1 w-full bg-white">
+        <div className="bg-gray-400 ml-2 rounded-full p-1.5 mr-1">
+          <MagnifyingGlassIcon className="h-6 text-white stroke-2" />
+        </div>
 
         <input
           type="text"
           //id="simple-search"
           onChange={handleSearchChange}
           //onBlur={() => setResults([])}
-          className="bg-white outline-none text-gray-900 text-sm flex-grow pl-2 p-2.5"
+          className="bg-transparent outline-none text-gray-900 text-base flex-grow pl-2 p-2.5"
           placeholder="Search for stocks, crypto and more ...."
         />
       </div>
 
       {value.length !== 0 && (
-        <div className="absolute rounded-b-xl py-1 w-full h-auto z-40 bg-white border border-gray-400 shadow-xl">
+        <div className="absolute rounded-b-xl py-1 w-full h-auto z-40 border border-gray-400 shadow-xl">
           {results?.slice(0, 6).map((stock) => (
-            <div className="hover:bg-gray-100">
+            <div key={stock.symbol} className="hover:bg-gray-100">
               <div className="grid grid-cols-9 items-center pb-4 pl-2 divide-y">
                 <div className={tickerBG()}>{stock.symbol}</div>
                 <div className="hover:bg-gray-100 font-semibold truncate col-span-8 ml-4 sm:ml-0">

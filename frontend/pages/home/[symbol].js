@@ -11,16 +11,15 @@ import {
   getGrowthTechStocks,
   getBio,
 } from "../../utils/stockService";
-import { set } from "lodash";
 import Graph from "../../components/Graph";
 
-function StockPage(props) {
-  const [stockData, setStockData] = useState(props.std);
-  const [modifiedStocks, setModifiedStocks] = useState(props.growthStocks);
+function StockPage({ stockData, growthStocks, graphData, bio }) {
+  // const [stockData, setStockData] = useState(props.stockData);
+  //const [modifiedStocks, setModifiedStocks] = useState(props.growthStocks);
   const [loading, isLoading] = useState(false);
-  const [graphData, setGraphData] = useState(props.graphData);
+  //const [graphData, setGraphData] = useState(props.graphData);
   const [currentTab, setCurrentTab] = useState("1D");
-  const [bio, setBio] = useState(props.bio);
+  //const [bio, setBio] = useState(props.bio);
 
   const router = useRouter();
   const sym = router.query.symbol;
@@ -44,6 +43,7 @@ function StockPage(props) {
     return percentsign;
   }
 
+  /*
   useEffect(() => {
     console.log("Use Effect called");
     isLoading(true);
@@ -51,9 +51,6 @@ function StockPage(props) {
     async function getGrowthStockData() {
       try {
         const { data: growthStocks } = await getGrowthTechStocks();
-
-        // const { data: std } = await getStockData(sym);
-        // setStockData(std);
 
         setModifiedStocks(growthStocks.slice(0, 6));
       } catch (error) {
@@ -65,6 +62,7 @@ function StockPage(props) {
 
     getGrowthStockData();
   }, []);
+  */
 
   //Object.keys(stockData).length == 0 ||
   if (loading) {
@@ -93,7 +91,7 @@ function StockPage(props) {
           </div>
         </div>
 
-        <div className="p-4">
+        <div className="relative p-4 max-w-2xl mx-auto">
           <Searchbar />
         </div>
 
@@ -103,23 +101,23 @@ function StockPage(props) {
               <div className="basis-5/7 flex flex-col lg:pl-10 h-auto p-2 divide-y-2 divide-gray-200 py-3">
                 <div className="flex flex-row">
                   <div className="inline-block ml-1 text-sm text-center rounded-lg font-bold text-white py-2 my-5 mt-3.5 px-4 bg-red-400">
-                    {stockData.underlyingSymbol}
+                    {stockData?.underlyingSymbol}
                   </div>
-                  <div className="inline-block p-2 ml-1.5 font-semibold text-3xl">
-                    {stockData.quote.shortName}
+                  <div className="inline-block p-2 ml-1.5 font-semibold text-3xl mt-1">
+                    {stockData?.quote.shortName}
                   </div>
                 </div>
 
                 <div className="flex flex-row">
                   <div className="inline-block py-2 text-6xl font-semibold font-mono">
-                    ${stockData.quote.regularMarketPrice}
+                    ${stockData?.quote.regularMarketPrice}
                   </div>
                   <div
                     className={percentsign(
-                      stockData.quote.regularMarketChangePercent
+                      stockData?.quote.regularMarketChangePercent
                     )}
                   >
-                    {stockData.quote.regularMarketChangePercent.toFixed(3)}%
+                    {stockData?.quote.regularMarketChangePercent.toFixed(3)}%
                   </div>
                 </div>
 
@@ -171,9 +169,9 @@ function StockPage(props) {
               You might Like:
             </div>
             <div className="flex flex-row h-auto p-2 py-4 gap-7 justify-center">
-              {modifiedStocks.map((stock) => (
+              {growthStocks?.map((stock) => (
                 <div className="hidden xl:inline-flex">
-                  <StockCard stock={stock} />
+                  <StockCard stock={stock} key={stock.symbol} />
                 </div>
               ))}
             </div>
@@ -211,7 +209,7 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      std: std,
+      stockData: std,
       growthStocks: growthStocks.slice(0, 6),
       graphData: graphData,
       bio: bio,

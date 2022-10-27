@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { db, auth } = require("../auth/firebaseConfig");
+const firebaseAuth = require("../middleware/firebaseToken");
 
 router.post("/:uid/add", async (req, res) => {
   console.log(req.body);
@@ -53,6 +54,21 @@ router.get("/:uid", async (req, res) => {
   } catch (err) {
     res.status(404).send(err);
     console.log(err);
+  }
+});
+
+router.get("/:uid/:symbol", async (req, res) => {
+  try {
+    const doc = await db
+      .collection("users")
+      .doc(req.params.uid)
+      .collection("watchlist")
+      .doc(req.params.symbol)
+      .get();
+
+    res.status(200).send(doc.exists);
+  } catch (err) {
+    res.status(404).send(err);
   }
 });
 

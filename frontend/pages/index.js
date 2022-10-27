@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ButtonGroup from "../components/ButtonGroup";
 import Navbar from "../components/NavBar";
 import NewsBigBlock from "../components/News";
 import Searchbar from "../components/SearchBar";
@@ -13,15 +12,25 @@ import {
   getMarketNews,
 } from "../utils/stockService";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
+
 function Home(props) {
-  const [popularStocks, setPopularStocks] = useState([]);
-  const [marketMovers_actives, setActives] = useState([]);
-  const [marketMovers_losers, setLosers] = useState([]);
-  const [marketMovers_gainers, setGainers] = useState([]);
+  const [popularStocks, setPopularStocks] = useState(props.popularStocks);
+  const [marketMovers_actives, setActives] = useState(
+    props.marketMovers_actives
+  );
+  const [marketMovers_losers, setLosers] = useState(props.marketMovers_losers);
+  const [marketMovers_gainers, setGainers] = useState(
+    props.marketMovers_gainers
+  );
   const [news, setNews] = useState(props.marketNews);
 
   // const [similarStocks, setSimilarStocks] = useState([]);
 
+  const [userLoggedIn] = useAuthState(auth);
+
+  /*
   async function getData() {
     let { data: popularStocks } = await getPopularStocks();
     popularStocks = popularStocks.slice(0, 5);
@@ -40,8 +49,7 @@ function Home(props) {
   useEffect(() => {
     getData();
   }, []);
-
-  console.log(news);
+*/
 
   return (
     <React.Fragment>
@@ -81,20 +89,22 @@ function Home(props) {
             </div>
 
             <div className="flex flex-nowrap pb-3">
-              <div className="md:basis-3/4 md:pl-10 h-auto p-2 bg-white divide-y-2 divide-gray-200">
+              <div className={style(userLoggedIn)}>
                 <div className="inline-block py-3 px-2 font-semibold text-2xl">
                   Today's Financial news
                 </div>
                 <NewsBigBlock news={news} />
               </div>
-              <div className="hidden md:inline-flex basis-1/4 h-auto p-2 bg-white">
-                <SideBlock />
-              </div>
+              {userLoggedIn && (
+                <div className="hidden md:inline-flex basis-1/4 h-auto p-2 bg-white">
+                  <SideBlock />
+                </div>
+              )}
             </div>
             <div className="flex h-auto p-2 py-4 space-x-7 justify-center">
-              {popularStocks.map((s) => (
-                <div className="hidden xl:inline-flex">
-                  <StockCard stock={s} />
+              {popularStocks?.map((s) => (
+                <div key={s?.symbol} className="hidden xl:inline-flex">
+                  <StockCard key={s?.symbol} stock={s} />
                 </div>
               ))}
             </div>
@@ -105,13 +115,18 @@ function Home(props) {
   );
 }
 
+function style(loggedIn) {
+  if (loggedIn)
+    return "md:basis-3/4 md:pl-10 h-auto p-2 bg-white divide-y-2 divide-gray-200";
+  return "md:pl-10 h-auto p-2 bg-white divide-y-2 divide-gray-200";
+}
+
 export default Home;
 
 export async function getStaticProps() {
   let { data } = await getMarketNews();
   let marketNews = data.slice(0, 10);
 
-  /*
   let { data: popularStocks } = await getPopularStocks();
   popularStocks = popularStocks.slice(0, 5);
 
@@ -120,13 +135,14 @@ export async function getStaticProps() {
   let marketMovers_actives = marketMovers.actives.slice(0, 6);
   let marketMovers_gainers = marketMovers.gainers.slice(0, 6);
   let marketMovers_losers = marketMovers.losers.slice(0, 6);
-  */
 
   return {
     props: {
-      marketNews: marketNews,
-      // popularStocks: popularStocks,
-      //marketMovers: marketMovers
+      marketNews,
+      popularStocks,
+      marketMovers_actives,
+      marketMovers_gainers,
+      marketMovers_losers,
     },
   };
 }

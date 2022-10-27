@@ -10,11 +10,11 @@ function Table(props) {
 
   let marketTab = [];
   if (currentTab === "Losers") {
-    marketTab = props.losers;
+    marketTab = props?.losers;
   } else if (currentTab === "Gainers") {
-    marketTab = props.gainers;
+    marketTab = props?.gainers;
   } else {
-    marketTab = props.actives;
+    marketTab = props?.actives;
   }
 
   function pricesign(price) {
@@ -87,9 +87,10 @@ function Table(props) {
       <div className="h-full w-full border-2 border-stone-300 rounded-3xl pt-2 px-4 pb-5 bg-white">
         <table className="w-full h-full rounded-xl text-left">
           <tbody>
-            {marketTab.map((stock) => (
+            {marketTab?.map((stock) => (
               <tr
-                className="bg-white border-b transition duration-300 hover:scale-125 cursor-pointer"
+                key={stock.name}
+                className="border-b transition duration-300 ease-out hover:scale-105 cursor-pointer"
                 onClick={() => router.push("/home/" + stock.ticker)}
               >
                 <td className="py-3 pr-1 w-fit">

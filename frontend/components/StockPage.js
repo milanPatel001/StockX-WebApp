@@ -199,7 +199,7 @@ const StockPage = (props) => {
             </div>
             <div className="flex flex-row h-auto p-2 py-4 gap-7 bg-gray-50 justify-center">
               {modifiedStocks.map((stock) => (
-                <StockCard stock={stock} />
+                <StockCard key={stock.symbol} stock={stock} />
               ))}
             </div>
           </div>
