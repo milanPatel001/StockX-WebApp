@@ -7,9 +7,13 @@ import CheckButton from "./CheckButton";
 import Graph from "./Graph";
 import SideBlock from "./SideBlock";
 import StockCard from "./stockCard";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase";
 
 export default function StockMain({ stockData, graphData, bio, growthStocks }) {
   const [currentTab, setCurrentTab] = useState("1D");
+  const [watchlist, setWatchlist] = useState([]);
+  const [userLoggedIn] = useAuthState(auth);
 
   function activeTab(tab) {
     var style =
@@ -30,6 +34,20 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
     return percentsign;
   }
 
+  const getData = async () => {
+    const res = await fetch(
+      `http://localhost:3000/api/watchlist/${userLoggedIn.uid}`
+    );
+    const data = await res.json();
+
+    console.log(data);
+    setWatchlist(data);
+  };
+
+  useEffect(() => {
+    if (userLoggedIn?.uid) getData();
+  }, [userLoggedIn]);
+
   return (
     <>
       <div className="h-screen w-full">
@@ -45,13 +63,16 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
                 </div>
 
                 <div className="py-2 ml-1.5 mt-3.5 cursor-pointer">
-                  <CheckButton
-                    stock={stockData}
-                    name={stockData.quote.shortName}
-                    symbol={stockData.underlyingSymbol}
-                    price={stockData.quote.regularMarketPrice}
-                    change={stockData.quote.regularMarketChangePercent}
-                  />
+                  {userLoggedIn?.uid && (
+                    <CheckButton
+                      watchlist={watchlist}
+                      stock={stockData}
+                      name={stockData.quote.shortName}
+                      symbol={stockData?.underlyingSymbol}
+                      price={stockData.quote.regularMarketPrice}
+                      change={stockData.quote.regularMarketChangePercent}
+                    />
+                  )}
                 </div>
 
                 {/*userLoggedIn && (
@@ -134,7 +155,7 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
           <div className="flex flex-row h-auto p-2 py-4 gap-7 justify-center">
             {growthStocks?.slice(0, 5).map((stock, i) => (
               <div className="hidden xl:inline-flex">
-                <StockCard stock={stock} key={i} />
+                <StockCard watchlist={watchlist} stock={stock} key={i} />
               </div>
             ))}
           </div>

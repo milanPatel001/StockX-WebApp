@@ -4,7 +4,7 @@ import _ from "lodash";
 import TableRow from "./tableRow";
 import { useRouter } from "next/navigation";
 
-function Table({ marketMovers }) {
+function Table({ marketMovers, watchlist }) {
   const [currentTab, setCurrentTab] = useState("Actives");
   const [movers, setMarketMovers] = useState([]);
   const [marketTab, setMarketTab] = useState([]);
@@ -66,7 +66,7 @@ function Table({ marketMovers }) {
         <table className="w-full h-full rounded-xl text-left">
           <tbody>
             {marketTab?.map((stock, i) => (
-              <TableRow key={i} stock={stock} />
+              <TableRow key={i} stock={stock} watchlist={watchlist} />
             ))}
           </tbody>
         </table>

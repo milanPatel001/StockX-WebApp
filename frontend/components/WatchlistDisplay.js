@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { removeFromWatchlist } from "../utils/userService";
 import { auth } from "../firebase";
 import {
   ArrowUpIcon,
@@ -106,7 +105,7 @@ function WatchlistDisplay({ stocks }) {
 
   const handleDelete = async (sym) => {
     try {
-      const copySt = st;
+      let copySt = st;
       copySt = copySt.filter((stc) => stc.stockSymbol !== sym);
 
       console.log(copySt);

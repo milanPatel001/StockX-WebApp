@@ -22,10 +22,10 @@ function WatchList() {
       setStocks(data);
     };
 
-    if (userLoggedIn.uid) getData();
+    if (userLoggedIn?.uid) getData();
   }, [userLoggedIn]);
 
-  if (!userLoggedIn.uid) return <div>EMPTY</div>;
+  if (!userLoggedIn?.uid) return <div>EMPTY</div>;
 
   return (
     <div className="bg-gray-50 mx-auto">

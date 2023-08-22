@@ -4,7 +4,7 @@ import _ from "lodash";
 import CheckButton from "./CheckButton";
 import { useRouter } from "next/navigation";
 
-function TableRow({ stock }) {
+function TableRow({ stock, watchlist }) {
   const [color, setColor] = useState("");
 
   const router = useRouter();
@@ -75,6 +75,7 @@ function TableRow({ stock }) {
           symbol={stock.ticker}
           price={stock.lastPrice}
           change={stock.percentNetChange}
+          watchlist={watchlist}
         />
       </td>
     </tr>

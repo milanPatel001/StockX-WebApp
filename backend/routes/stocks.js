@@ -167,6 +167,7 @@ router.get("/:symbol", (req, res) => {
   axios
     .request(opt)
     .then(function (response) {
+      console.log(response.data.optionChain.result[0]);
       res.set(options).send(response.data.optionChain.result[0]);
     })
     .catch(function (error) {

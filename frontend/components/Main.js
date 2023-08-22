@@ -9,39 +9,24 @@ import StockCardMini from "./stockcard_mini";
 import Table from "./table";
 import { auth } from "@/firebase";
 import { useEffect, useState } from "react";
-import {
-  getMarketMovers,
-  getMarketNews,
-  getPopularStocks,
-} from "@/utils/stockService";
 
 export default function Main({ marketMovers, popularStocks, marketNews }) {
-  //const [popularStocks, setPopularStocks] = useState([]);
-  //const [marketMovers, setMarketMovers] = useState([]);
-
-  // const [similarStocks, setSimilarStocks] = useState([]);
-
   const [userLoggedIn] = useAuthState(auth);
+  const [watchlist, setWatchlist] = useState([]);
 
-  async function getData() {
-    // let { data: marketNews } = await getMarketNews();
-    let { data: popularStocks } = await getPopularStocks();
-    //popularStocks = popularStocks.slice(0, 5);
-    let { data: marketMovers } = await getMarketMovers();
+  const getData = async () => {
+    const res = await fetch(
+      `http://localhost:3000/api/watchlist/${userLoggedIn.uid}`
+    );
+    const data = await res.json();
 
-    /*
-    let marketMovers_actives = marketMovers.actives.slice(0, 6);
-    let marketMovers_gainers = marketMovers.gainers.slice(0, 6);
-    let marketMovers_losers = marketMovers.losers.slice(0, 6);
-*/
-    setMarketMovers(marketMovers);
-    setPopularStocks(popularStocks);
-    //setNews(marketNews);
-  }
+    console.log(data);
+    setWatchlist(data);
+  };
 
   useEffect(() => {
-    //getData();
-  }, []);
+    if (userLoggedIn?.uid) getData();
+  }, [userLoggedIn]);
 
   function style(loggedIn) {
     if (loggedIn)
@@ -77,7 +62,7 @@ export default function Main({ marketMovers, popularStocks, marketNews }) {
           <div className="p-2 py-10 h-full md:w-3/4 mx-auto bg-white shadow-2xl rounded-2xl">
             <div className="h-auto mx-auto bg-white xl:px-60 pb-7">
               <p className="font-semibold text-2xl pb-2 pl-2 ">Market Trend</p>
-              <Table marketMovers={marketMovers} />
+              <Table marketMovers={marketMovers} watchlist={watchlist} />
             </div>
 
             <div className="flex flex-nowrap pb-3">
@@ -94,9 +79,9 @@ export default function Main({ marketMovers, popularStocks, marketNews }) {
               )}
             </div>
             <div className="flex h-auto p-2 py-4 space-x-7 justify-center">
-              {popularStocks?.slice(0, 5).map((s) => (
-                <div key={s?.symbol} className="hidden xl:inline-flex">
-                  <StockCard key={s?.symbol} stock={s} />
+              {popularStocks?.slice(0, 5).map((s, i) => (
+                <div key={i} className="hidden xl:inline-flex">
+                  <StockCard key={s?.symbol} stock={s} watchlist={watchlist} />
                 </div>
               ))}
             </div>

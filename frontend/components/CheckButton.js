@@ -6,12 +6,19 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 import { useEffect, useState } from "react";
 
-export default function CheckButton(props) {
+export default function CheckButton({
+  stock,
+  name,
+  symbol,
+  price,
+  change,
+  watchlist,
+}) {
   const [checked, setChecked] = useState(false);
   const [userLoggedIn] = useAuthState(auth);
 
   const handleCheck = async () => {
-    if (userLoggedIn.uid) {
+    if (userLoggedIn?.uid) {
       try {
         const options = {
           method: "POST",
@@ -21,10 +28,10 @@ export default function CheckButton(props) {
             Accept: "application/json",
           },
           body: JSON.stringify({
-            stockName: props.name,
-            stockSymbol: props.symbol,
-            stockPrice: props.price,
-            stockPercentChange: props.change,
+            stockName: name,
+            stockSymbol: symbol,
+            stockPrice: price,
+            stockPercentChange: change,
           }),
           cache: "no-store",
         };
@@ -47,7 +54,7 @@ export default function CheckButton(props) {
     try {
       const options = {
         method: "POST",
-        url: `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${props.symbol}`,
+        url: `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${symbol}`,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -56,7 +63,7 @@ export default function CheckButton(props) {
       };
 
       const res = await fetch(
-        `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${props.symbol}`,
+        `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${symbol}`,
         options
       );
 
@@ -69,6 +76,14 @@ export default function CheckButton(props) {
   };
 
   const checkStockInWatchlist = async () => {
+    console.log(symbol);
+    const found = watchlist?.find((st) => st.stockSymbol == symbol);
+
+    if (found?.stockSymbol) {
+      console.log(found);
+      setChecked(true);
+    }
+    /*
     if (!userLoggedIn) return false;
     try {
       const res = await fetch(
@@ -76,18 +91,19 @@ export default function CheckButton(props) {
       );
       const result = await res.json();
 
-      if (result.passed) setChecked(status.data);
+      setChecked(result.data);
     } catch (err) {
       console.log(err);
     }
+    */
   };
 
   useEffect(() => {
     checkStockInWatchlist();
-  }, [props.stock]);
+  }, [userLoggedIn, watchlist]);
 
   return (
-    userLoggedIn && (
+    userLoggedIn?.uid && (
       <div className="group mx-auto relative flex flex-col items-center">
         {checked == false ? (
           <>

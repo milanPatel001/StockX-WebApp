@@ -66,6 +66,7 @@ function StockCard(props) {
       </div>
 
       <CheckButton
+        watchlist={props.watchlist}
         stock={props.stock}
         name={props.stock.shortName}
         symbol={props.stock.symbol}
