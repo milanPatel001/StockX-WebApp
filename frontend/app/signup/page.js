@@ -5,6 +5,8 @@ import Link from "next/link";
 import { registerUser } from "../../utils/userService";
 import { useRouter } from "next/navigation";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [error, setError] = useState();
@@ -28,12 +30,22 @@ export default function Login() {
 
       router.push("/login");
     } catch (err) {
-      console.log(err);
+      toast.error("Something went wrong!!", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
   return (
     <div className="w-screen h-screen lg:bg-gray-100">
+      <ToastContainer />
       <div className="border"></div>
       <div className="lg:w-1/3 mx-auto rounded-xl lg:shadow-xl p-10 bg-white lg:mt-7 flex flex-col">
         <div className="mt-3 flex items-center gap-3">

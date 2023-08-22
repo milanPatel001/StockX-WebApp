@@ -9,6 +9,8 @@ import StockCardMini from "./stockcard_mini";
 import Table from "./table";
 import { auth } from "@/firebase";
 import { useEffect, useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Main({ marketMovers, popularStocks, marketNews }) {
   const [userLoggedIn] = useAuthState(auth);
@@ -38,6 +40,7 @@ export default function Main({ marketMovers, popularStocks, marketNews }) {
     <>
       <div className="bg-gray-50 mx-auto">
         <div className="flex h-auto p-2 py-4 space-x-7 justify-center bg-gray-50">
+          <ToastContainer />
           <StockCardMini />
           <StockCardMini />
 

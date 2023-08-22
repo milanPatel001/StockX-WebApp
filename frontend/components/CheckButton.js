@@ -5,6 +5,8 @@ import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CheckButton({
   stock,
@@ -43,9 +45,41 @@ export default function CheckButton({
 
         const result = await res.json();
 
-        if (result.passed) setChecked(!checked);
+        if (result.passed) {
+          toast.success(`Added ${name} to Watchlist`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+          setChecked(!checked);
+        } else {
+          toast.error(`Can't add ${name} to watchlist!!`, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
       } catch (err) {
-        console.log(err);
+        toast.error(`Can't add ${name} to watchlist!!`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     }
   };
@@ -69,14 +103,47 @@ export default function CheckButton({
 
       const result = await res.json();
 
-      if (result.passed) setChecked(!checked);
+      if (result.passed) {
+        toast.success(`Removed ${name} from Watchlist`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+
+        setChecked(!checked);
+      } else {
+        toast.error(`Can't remove ${name} from watchlist!!`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     } catch (err) {
-      console.log(err);
+      toast.error(`Can't remove ${name} from watchlist!!`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
   const checkStockInWatchlist = async () => {
-    console.log(symbol);
+    // console.log(symbol);
     const found = watchlist?.find((st) => st.stockSymbol == symbol);
 
     if (found?.stockSymbol) {

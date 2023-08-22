@@ -32,7 +32,22 @@ export default function Login() {
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
         result.user.getIdToken(true).then(async (idtoken) => {
-          const data = await verifyToken(idtoken);
+          const options = {
+            method: "POST",
+            url: "http://localhost:3000/api/login",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Authorization: `Bearer ${idtoken}`,
+            },
+            body: JSON.stringify({ hello: "world" }),
+            cache: "no-store",
+          };
+
+          const res = await fetch("http://localhost:3000/api/login", options);
+
+          const data = await res.json();
+
           if (data.passed) router.push("/");
           else {
             toast.error("Invalid Email or Password!!", {
@@ -48,7 +63,8 @@ export default function Login() {
           }
         });
       })
-      .catch((err) =>
+      .catch((err) => {
+        console.error(err);
         toast.error("Invalid Email or Password!!", {
           position: "top-right",
           autoClose: 2000,
@@ -58,8 +74,8 @@ export default function Login() {
           draggable: true,
           progress: undefined,
           theme: "colored",
-        })
-      );
+        });
+      });
   };
 
   return (
@@ -160,3 +176,20 @@ export default function Login() {
     </div>
   );
 }
+
+/*
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+toast.error("Invalid Email or Password!!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        })
+      
+*/

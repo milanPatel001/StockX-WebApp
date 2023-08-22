@@ -9,6 +9,8 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function WatchlistDisplay({ stocks }) {
   const router = useRouter();
@@ -127,19 +129,49 @@ function WatchlistDisplay({ stocks }) {
 
       const result = await res.json();
 
-      if (!res.passed) {
+      if (!result.passed) {
+        toast.error(`Not able to remove ${sym} !!`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       } else {
+        toast.success(`Removed ${sym} successfully!!`, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
 
       setStocks(copySt);
     } catch (err) {
-      console.log(err);
+      toast.error(`Something went wrong!!`, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
   if (st?.length === 0) return <p>Seems Empty .......</p>;
   return (
     <div className="h-full w-full border-2 border-stone-300 rounded-lg pt-2 px-4 pb-5 bg-white">
+      <ToastContainer />
       {/* Sorting options */}
 
       <div className="my-5 flex relative">

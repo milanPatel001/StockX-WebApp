@@ -5,6 +5,9 @@ import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { HomeIcon } from "@heroicons/react/24/outline";
+import { ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Navbar(props) {
   const router = useRouter();
@@ -13,16 +16,34 @@ function Navbar(props) {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        //router.push("/");
-        console.log("Success");
+        toast.success("Signed Out Successfully!!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       })
       .catch((error) => {
-        console.warn(error);
+        toast.error("Can't sign out!!", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
 
   return (
     <header className="flex items-center drop-shadow-xl sticky top-0 z-50 p-2 mx-auto bg-white">
+      <ToastContainer />
       <div className="flex items-center">
         <h2
           className="text-2xl md:text-3xl p-2 cursor-pointer"

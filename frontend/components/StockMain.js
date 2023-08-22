@@ -9,6 +9,8 @@ import SideBlock from "./SideBlock";
 import StockCard from "./stockCard";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export default function StockMain({ stockData, graphData, bio, growthStocks }) {
   const [currentTab, setCurrentTab] = useState("1D");
@@ -51,6 +53,7 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
   return (
     <>
       <div className="h-screen w-full">
+        <ToastContainer />
         <div className="p-2 lg:w-3/4 mx-auto">
           <div className="flex flex-col lg:flex-row gap-2 pb-3 rounded-xl shadow-xl my-5 border-2">
             <div className="flex flex-col lg:pl-10 h-auto p-2 divide-y-2 divide-gray-200 py-3 lg:w-2/3">

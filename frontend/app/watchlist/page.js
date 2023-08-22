@@ -6,6 +6,7 @@ import { auth } from "../../firebase";
 import { useEffect, useState } from "react";
 import Navbar from "@/components/NavBar";
 import WatchlistDisplay from "@/components/WatchlistDisplay";
+import "react-toastify/dist/ReactToastify.css";
 
 function WatchList() {
   const [userLoggedIn] = useAuthState(auth);
