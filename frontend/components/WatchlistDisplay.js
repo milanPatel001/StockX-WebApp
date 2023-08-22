@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { removeFromWatchlist } from "../utils/userService";
@@ -108,7 +110,28 @@ function WatchlistDisplay({ stocks }) {
       copySt = copySt.filter((stc) => stc.stockSymbol !== sym);
 
       console.log(copySt);
-      await removeFromWatchlist(userLoggedIn.uid, sym);
+
+      const options = {
+        method: "POST",
+        url: `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${sym}`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        cache: "no-store",
+      };
+
+      const res = await fetch(
+        `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${sym}`,
+        options
+      );
+
+      const result = await res.json();
+
+      if (!res.passed) {
+      } else {
+      }
+
       setStocks(copySt);
     } catch (err) {
       console.log(err);

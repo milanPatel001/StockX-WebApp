@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 
 import Link from "next/link";
-import { autoComplete } from "../utils/stockService";
 import _ from "lodash";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";

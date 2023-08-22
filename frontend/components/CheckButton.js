@@ -1,38 +1,68 @@
+"use client";
+
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
-import {
-  addToWatchlist,
-  removeFromWatchlist,
-  stockInWatchlist,
-} from "../utils/userService";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function CheckButton(props) {
   const [checked, setChecked] = useState(false);
-  //const [color, setColor] = useState();
   const [userLoggedIn] = useAuthState(auth);
 
   const handleCheck = async () => {
-    try {
-      await addToWatchlist(userLoggedIn.uid, {
-        stockName: props.name,
-        stockSymbol: props.symbol,
-        stockPrice: props.price,
-        stockPercentChange: props.change,
-      });
+    if (userLoggedIn.uid) {
+      try {
+        const options = {
+          method: "POST",
+          url: `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/add`,
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            stockName: props.name,
+            stockSymbol: props.symbol,
+            stockPrice: props.price,
+            stockPercentChange: props.change,
+          }),
+          cache: "no-store",
+        };
 
-      setChecked(!checked);
-    } catch (err) {
-      console.log(err);
+        const res = await fetch(
+          `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/add`,
+          options
+        );
+
+        const result = await res.json();
+
+        if (result.passed) setChecked(!checked);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
   const handleUncheck = async () => {
     try {
-      await removeFromWatchlist(userLoggedIn.uid, props.symbol);
-      setChecked(!checked);
+      const options = {
+        method: "POST",
+        url: `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${props.symbol}`,
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        cache: "no-store",
+      };
+
+      const res = await fetch(
+        `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${props.symbol}`,
+        options
+      );
+
+      const result = await res.json();
+
+      if (result.passed) setChecked(!checked);
     } catch (err) {
       console.log(err);
     }
@@ -41,8 +71,12 @@ export default function CheckButton(props) {
   const checkStockInWatchlist = async () => {
     if (!userLoggedIn) return false;
     try {
-      const status = await stockInWatchlist(userLoggedIn.uid, props.symbol);
-      setChecked(status.data);
+      const res = await fetch(
+        `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/${props.symbol}`
+      );
+      const result = await res.json();
+
+      if (result.passed) setChecked(status.data);
     } catch (err) {
       console.log(err);
     }
