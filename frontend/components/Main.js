@@ -8,9 +8,10 @@ import StockCard from "./stockCard";
 import StockCardMini from "./stockcard_mini";
 import Table from "./table";
 import { auth } from "@/firebase";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Skeleton from "./Skeleton";
 
 export default function Main({ marketMovers, popularStocks, marketNews }) {
   const [userLoggedIn] = useAuthState(auth);
@@ -65,6 +66,7 @@ export default function Main({ marketMovers, popularStocks, marketNews }) {
           <div className="p-2 py-10 h-full md:w-3/4 mx-auto bg-white shadow-2xl rounded-2xl">
             <div className="h-auto mx-auto bg-white xl:px-60 pb-7">
               <p className="font-semibold text-2xl pb-2 pl-2 ">Market Trend</p>
+
               <Table marketMovers={marketMovers} watchlist={watchlist} />
             </div>
 

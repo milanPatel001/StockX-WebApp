@@ -1,9 +1,4 @@
 import Navbar from "@/components/NavBar";
-import {
-  getPopularStocks,
-  getMarketMovers,
-  getMarketNews,
-} from "../utils/stockService";
 import Main from "@/components/Main";
 
 export default async function Home() {
