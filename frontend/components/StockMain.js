@@ -157,8 +157,8 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
           </div>
           <div className="flex flex-row h-auto p-2 py-4 gap-7 justify-center">
             {growthStocks?.slice(0, 5).map((stock, i) => (
-              <div className="hidden xl:inline-flex">
-                <StockCard watchlist={watchlist} stock={stock} key={i} />
+              <div className="hidden xl:inline-flex" key={i}>
+                <StockCard watchlist={watchlist} stock={stock} />
               </div>
             ))}
           </div>
