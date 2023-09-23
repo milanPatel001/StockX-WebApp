@@ -4,19 +4,23 @@ import StockMain from "@/components/StockMain";
 import StockCardMini from "@/components/stockcard_mini";
 
 export default async function StockPage({ params }) {
-  const res = await fetch(`http://localhost:3000/api/stocks/${params.stock}`);
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/stocks/${params.stock}`
+  );
   const std = await res.json();
 
   const res2 = await fetch(
-    `http://localhost:3000/api/stocks/bio/${params.stock}`
+    `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/stocks/bio/${params.stock}`
   );
   const bio = await res2.json();
 
-  const res4 = await fetch("http://localhost:3000/api/stocks/growthTechStocks");
+  const res4 = await fetch(
+    process.env.NEXT_PUBLIC_DEV_API_URL + "/api/stocks/growthTechStocks"
+  );
   const growthStocks = await res4.json();
 
   const res3 = await fetch(
-    `http://localhost:3000/api/stocks/stockGraph/${params.stock}/1d`
+    `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/stocks/stockGraph/${params.stock}/1d`
   );
   const graphData = await res3.json();
 

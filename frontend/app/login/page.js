@@ -19,9 +19,45 @@ export default function Login() {
 
   const handleLogin = async () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
-        loginUserUsingId(result.user.uid);
-        router.push("/");
+      .then(async (result) => {
+        //loginUserUsingId(result.user.uid);
+
+        const options = {
+          method: "POST",
+          url:
+            process.env.NEXT_PUBLIC_DEV_API_URL +
+            "/api/login/" +
+            result.user.uid,
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          //body: JSON.stringify(req),
+          cache: "no-store",
+        };
+
+        const res = await fetch(
+          process.env.NEXT_PUBLIC_DEV_API_URL + "/api/login/" + result.user.uid,
+          options
+        );
+
+        if (res.status == 401 || res.status == 400) return { failed: true };
+
+        const data = await res.json();
+
+        if (data.passed) router.push("/");
+        else {
+          toast.error("Invalid Email or Password!!", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          });
+        }
       })
       .catch(alert);
   };
@@ -34,7 +70,7 @@ export default function Login() {
         result.user.getIdToken(true).then(async (idtoken) => {
           const options = {
             method: "POST",
-            url: "http://localhost:3000/api/login",
+            url: process.env.NEXT_PUBLIC_DEV_API_URL + "/api/login",
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
@@ -44,7 +80,10 @@ export default function Login() {
             cache: "no-store",
           };
 
-          const res = await fetch("http://localhost:3000/api/login", options);
+          const res = await fetch(
+            process.env.NEXT_PUBLIC_DEV_API_URL + "/api/login",
+            options
+          );
 
           const data = await res.json();
 

@@ -24,7 +24,7 @@ export default function CheckButton({
       try {
         const options = {
           method: "POST",
-          url: `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/add`,
+          url: `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/watchlist/${userLoggedIn.uid}/add`,
           headers: {
             "Content-Type": "application/json",
             Accept: "application/json",
@@ -39,7 +39,7 @@ export default function CheckButton({
         };
 
         const res = await fetch(
-          `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/add`,
+          `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/watchlist/${userLoggedIn.uid}/add`,
           options
         );
 
@@ -88,7 +88,7 @@ export default function CheckButton({
     try {
       const options = {
         method: "POST",
-        url: `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${symbol}`,
+        url: `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/watchlist/${userLoggedIn.uid}/remove/${symbol}`,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -97,7 +97,7 @@ export default function CheckButton({
       };
 
       const res = await fetch(
-        `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${symbol}`,
+        `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/watchlist/${userLoggedIn.uid}/remove/${symbol}`,
         options
       );
 

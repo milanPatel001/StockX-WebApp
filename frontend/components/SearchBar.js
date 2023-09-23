@@ -40,7 +40,7 @@ function Searchbar(props) {
 
     if (value != 0) {
       const res = await fetch(
-        `http://localhost:3000/api/stocks/autocomplete/${value}`
+        `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/stocks/autocomplete/${value}`
       );
       const data = await res.json();
 

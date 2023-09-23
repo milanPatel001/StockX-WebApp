@@ -1,7 +1,7 @@
 export async function registerUser(req) {
   const options = {
     method: "POST",
-    url: "http://localhost:3000/api/users",
+    url: process.env.DEV_API_URL + "/api/users",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -10,7 +10,7 @@ export async function registerUser(req) {
     cache: "no-store",
   };
 
-  const res = await fetch("http://localhost:3000/api/users", options);
+  const res = await fetch(process.env.DEV_API_URL + "/api/users", options);
 
   if (res.status == 401 || res.status == 400) return { failed: true };
 
@@ -22,7 +22,7 @@ export async function registerUser(req) {
 export async function loginUser(req) {
   const options = {
     method: "POST",
-    url: "http://localhost:3000/api/login",
+    url: process.env.DEV_API_URL + "/api/login",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -31,7 +31,7 @@ export async function loginUser(req) {
     cache: "no-store",
   };
 
-  const res = await fetch("http://localhost:3000/api/login", options);
+  const res = await fetch(process.env.DEV_API_URL + "/api/login", options);
 
   if (res.status == 401 || res.status == 400) return { failed: true };
 
@@ -43,7 +43,7 @@ export async function loginUser(req) {
 export async function loginUserUsingId(uid) {
   const options = {
     method: "POST",
-    url: `http://localhost:3000/api/login/${uid}`,
+    url: `${process.env.DEV_API_URL}/api/login/${uid}`,
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -52,7 +52,10 @@ export async function loginUserUsingId(uid) {
     cache: "no-store",
   };
 
-  const res = await fetch(`http://localhost:3000/api/login/${uid}`, options);
+  const res = await fetch(
+    `${process.env.DEV_API_URL}/api/login/${uid}`,
+    options
+  );
 
   if (res.status == 401 || res.status == 400) return { failed: true };
 
@@ -64,7 +67,7 @@ export async function loginUserUsingId(uid) {
 export async function verifyToken(tokenId) {
   const options = {
     method: "POST",
-    url: "http://localhost:3000/api/login",
+    url: process.env.DEV_API_URL + "/api/login",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -74,7 +77,7 @@ export async function verifyToken(tokenId) {
     cache: "no-store",
   };
 
-  const res = await fetch("http://localhost:3000/api/login", options);
+  const res = await fetch(process.env.DEV_API_URL + "/api/login", options);
 
   if (res.status == 401 || res.status == 400) return { failed: true };
 
@@ -86,7 +89,7 @@ export async function verifyToken(tokenId) {
 export async function addToWatchlist(uid, req) {
   const options = {
     method: "POST",
-    url: `http://localhost:3000/api/watchlist/${uid}/add`,
+    url: `${process.env.DEV_API_URL}/api/watchlist/${uid}/add`,
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -96,7 +99,7 @@ export async function addToWatchlist(uid, req) {
   };
 
   const res = await fetch(
-    `http://localhost:3000/api/watchlist/${uid}/add`,
+    `${process.env.DEV_API_URL}/api/watchlist/${uid}/add`,
     options
   );
 
@@ -110,7 +113,7 @@ export async function addToWatchlist(uid, req) {
 export async function removeFromWatchlist(uid, symbol) {
   const options = {
     method: "POST",
-    url: `http://localhost:3000/api/watchlist/${uid}/remove/${symbol}`,
+    url: `${process.env.DEV_API_URL}/api/watchlist/${uid}/remove/${symbol}`,
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -119,7 +122,7 @@ export async function removeFromWatchlist(uid, symbol) {
   };
 
   const res = await fetch(
-    `http://localhost:3000/api/watchlist/${uid}/remove/${symbol}`,
+    `${process.env.DEV_API_URL}/api/watchlist/${uid}/remove/${symbol}`,
     options
   );
 
@@ -131,14 +134,14 @@ export async function removeFromWatchlist(uid, symbol) {
 }
 
 export async function getAllWatchedStocks(uid) {
-  const res = await fetch(`http://localhost:3000/api/watchlist/${uid}`);
+  const res = await fetch(`${process.env.DEV_API_URL}/api/watchlist/${uid}`);
   const data = await res.json();
   return data;
 }
 
 export async function stockInWatchlist(uid, symbol) {
   const res = await fetch(
-    `http://localhost:3000/api/watchlist/${uid}/${symbol}`
+    `${process.env.DEV_API_URL}/api/watchlist/${uid}/${symbol}`
   );
   const data = await res.json();
   return data;
