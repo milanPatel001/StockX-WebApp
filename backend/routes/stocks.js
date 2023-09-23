@@ -82,13 +82,23 @@ router.get("/marketNews", async (req, res) => {
 });
 
 router.get("/popular", async (req, res) => {
+  // var opt = {
+  //   method: "GET",
+  //   url: "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/ws/screeners/v1/finance/screener/predefined/saved",
+  //   params: { scrIds: "day_gainers" },
+  //   headers: {
+  //     "x-rapidapi-host": "stock-data-yahoo-finance-alternative.p.rapidapi.com",
+  //     "x-rapidapi-key": process.env.RAPID_API_KEY,
+  //   },
+  // };
+
   var opt = {
     method: "GET",
-    url: "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/ws/screeners/v1/finance/screener/predefined/saved",
-    params: { scrIds: "day_gainers" },
+    url: "https://yahoo-finance15.p.rapidapi.com/api/yahoo/co/collections/day_gainers",
+    params: { start: "0" },
     headers: {
-      "x-rapidapi-host": "stock-data-yahoo-finance-alternative.p.rapidapi.com",
-      "x-rapidapi-key": process.env.RAPID_API_KEY,
+      "X-RapidAPI-Key": "f951e8b5e5msh944320931f0191ap18a2ecjsn0f4c375d7528",
+      "X-RapidAPI-Host": "yahoo-finance15.p.rapidapi.com",
     },
   };
 
@@ -97,7 +107,8 @@ router.get("/popular", async (req, res) => {
     .then(function (response) {
       //console.log("POPULAR");
       //console.log(response.data.finance.result[0].quotes);
-      res.set(options).send(response.data.finance.result[0].quotes);
+      //res.set(options).send(response.data.finance.result[0].quotes);
+      res.set(options).send(response.data.quotes);
     })
     .catch(function (error) {
       console.error(error);
