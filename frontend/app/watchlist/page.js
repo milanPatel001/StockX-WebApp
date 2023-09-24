@@ -33,7 +33,7 @@ function WatchList() {
     <div className="bg-gray-50 mx-auto">
       <Navbar />
 
-      <div className="w-1/2 mx-auto py-3">
+      <div className="md:w-1/2 md:mx-auto py-3">
         <WatchlistDisplay stocks={stocks} />
       </div>
     </div>

@@ -12,6 +12,7 @@ import { Suspense, useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Skeleton from "./Skeleton";
+import SideWatchBlock from "./SideWatchBlock";
 
 export default function Main({ marketMovers, popularStocks, marketNews }) {
   const [userLoggedIn] = useAuthState(auth);
@@ -23,7 +24,7 @@ export default function Main({ marketMovers, popularStocks, marketNews }) {
     );
     const data = await res.json();
 
-    console.log(data);
+    //console.log(data);
     setWatchlist(data);
   };
 
@@ -33,8 +34,8 @@ export default function Main({ marketMovers, popularStocks, marketNews }) {
 
   function style(loggedIn) {
     if (loggedIn)
-      return "md:basis-3/4 md:pl-10 h-auto p-2 bg-white divide-y-2 divide-gray-200";
-    return "md:pl-10 h-auto p-2 bg-white divide-y-2 divide-gray-200";
+      return "lg:w-2/3 lg:pl-10 h-auto p-2 bg-white divide-y-2 divide-gray-200";
+    return "lg:pl-10 h-auto p-2 bg-white divide-y-2 divide-gray-200";
   }
 
   return (
@@ -78,17 +79,26 @@ export default function Main({ marketMovers, popularStocks, marketNews }) {
                 <NewsBigBlock news={marketNews} />
               </div>
               {userLoggedIn && (
-                <div className="hidden md:inline-flex basis-1/4 h-auto p-2 bg-white">
-                  <SideBlock />
+                <div className="hidden lg:flex w-1/3 h-fit sticky top-20 p-2 bg-white">
+                  <SideWatchBlock watchlist={watchlist} />
                 </div>
               )}
             </div>
-            <div className="flex h-auto p-2 py-4 space-x-7 justify-center">
-              {popularStocks?.slice(0, 5).map((s, i) => (
-                <div key={i} className="hidden xl:inline-flex">
-                  <StockCard key={s?.symbol} stock={s} watchlist={watchlist} />
-                </div>
-              ))}
+            <div className="p-2">
+              <p className="hidden xl:inline-block text-3xl font-medium ml-3">
+                Popular Stocks
+              </p>
+              <div className="flex h-auto p-2 py-4 space-x-7 justify-center">
+                {popularStocks?.slice(0, 5).map((s, i) => (
+                  <div key={i} className="hidden xl:inline-flex">
+                    <StockCard
+                      key={s?.symbol}
+                      stock={s}
+                      watchlist={watchlist}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

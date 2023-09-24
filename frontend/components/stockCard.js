@@ -1,8 +1,8 @@
-import _ from "lodash";
 import React, { useEffect, useState } from "react";
 
 import CheckButton from "./CheckButton";
 import { useRouter } from "next/navigation";
+import { cardPercentsign, cardTickerBG } from "@/utils/extra";
 
 function StockCard(props) {
   const data = {
@@ -14,37 +14,12 @@ function StockCard(props) {
 
   const router = useRouter();
 
-  const [color, setColor] = useState();
-
-  const colors = [
-    "bg-rose-600",
-    "bg-rose-800",
-    "bg-sky-500",
-    "bg-green-700",
-    "bg-green-500",
-    "bg-fuchsia-700",
-    "bg-fuchsia-900",
-    "bg-indigo-500",
-    "bg-green-600",
-  ];
-
-  function percentsign(percent) {
-    let percentsign =
-      "inline-block pr-2 pl-2 py-1 w-fit text-base font-bold rounded-lg text-center ";
-    percentsign +=
-      percent > 0 ? "bg-green-100 text-green-800" : "bg-rose-100 text-rose-700";
-    return percentsign;
-  }
-
-  function tickerBG() {
-    let style =
-      "inline-block w-fit ml-1 text-xs text-center rounded-lg font-bold text-white px-2 mt-1 py-0.5 ";
-    style += color;
-    return style;
-  }
+  const [tickerColor, setTickerColor] = useState("");
+  const [percentColor, setPercentColor] = useState("");
 
   useEffect(() => {
-    setColor(_.sample(colors));
+    setTickerColor(cardTickerBG());
+    setPercentColor(cardPercentsign(props.stock.regularMarketChangePercent));
   }, [props.stock]);
 
   return (
@@ -52,7 +27,7 @@ function StockCard(props) {
       className="flex flex-col border-2 border-slate-300 my-auto gap-1.5 rounded-xl w-48 bg-white p-2 transition duration-300 hover:bg-gray-50 hover:scale-125 cursor-pointer shadow-xl"
       //onClick={() => router.push("/home/" + props.stock.symbol)}
     >
-      <div className={tickerBG()}>{props.stock.symbol}</div>
+      <div className={tickerColor}>{props.stock.symbol}</div>
       <div className="inline-block font-semibold ml-1 truncate">
         {props.stock.shortName}
       </div>
@@ -61,7 +36,7 @@ function StockCard(props) {
         ${props.stock.regularMarketPrice}
       </div>
 
-      <div className={percentsign(props.stock.regularMarketChangePercent)}>
+      <div className={percentColor}>
         {props.stock.regularMarketChangePercent.toFixed(2)}
       </div>
 

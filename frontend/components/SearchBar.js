@@ -6,32 +6,19 @@ import Link from "next/link";
 import _ from "lodash";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useRouter } from "next/navigation";
+import { searchTickerBG } from "@/utils/extra";
 
 function Searchbar(props) {
   const [results, setResults] = useState([]);
   const [value, setValue] = useState("");
+  const [tickerColors, setTickerColors] = useState([]);
   //  const data = ["a", "b", "acd", "bcs", "ccsc", "aaa", "bsa"];
 
   const router = useRouter();
 
-  function tickerBG() {
-    const colors = [
-      "bg-rose-600",
-      "bg-rose-800",
-      "bg-sky-500",
-      "bg-green-700",
-      "bg-green-500",
-      "bg-fuchsia-700",
-      "bg-fuchsia-900",
-      "bg-indigo-500",
-      "bg-green-600",
-    ];
-
-    let style =
-      "inline-block w-fit ml-1 text-xs text-center rounded-lg font-bold text-white px-2 mt-1 py-0.5 ";
-    style += _.sample(colors);
-    return style;
-  }
+  useEffect(() => {
+    setTickerColors(searchTickerBG());
+  }, []);
 
   const handleSearchChange = async (e) => {
     let value = e.currentTarget.value;
@@ -72,12 +59,12 @@ function Searchbar(props) {
 
       {value.length !== 0 && (
         <div className="absolute rounded-b-xl py-1 w-full h-auto z-40 border border-gray-400 shadow-xl bg-white">
-          {results?.slice(0, 6).map((stock) => (
+          {results?.slice(0, 6).map((stock, i) => (
             <div key={stock.symbol} className="hover:bg-gray-100">
-              <div className="grid grid-cols-9 items-center pb-4 pl-2 divide-y">
-                <div className={tickerBG()}>{stock.symbol}</div>
+              <div className="grid grid-cols-9 items-center pb-4 pl-2 pt-2">
+                <div className={tickerColors[i]}>{stock.symbol}</div>
                 <div className="hover:bg-gray-100 font-semibold truncate col-span-8 ml-4 sm:ml-0">
-                  <Link href={`/home/${stock.symbol}`}>{stock.name}</Link>
+                  <Link href={`/stock/${stock.symbol}`}>{stock.name}</Link>
                 </div>
               </div>
             </div>

@@ -1,8 +1,10 @@
+"use client";
+
 import { useState } from "react";
 
 function SideBlock(props) {
   return (
-    <div className="flex flex-col h-full gap-4 p-4 divide-y divide-gray border border-gray-400 rounded-lg">
+    <div className="flex flex-col h-full w-full gap-4 p-4 divide-y divide-gray border border-gray-400 rounded-lg">
       <div className="flex flex-row pt-2">
         <div className="font-semibold text-sm pr-2 text-gray-600">
           PRIMARY EXCHANGE

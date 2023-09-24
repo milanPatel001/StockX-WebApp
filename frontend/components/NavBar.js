@@ -4,7 +4,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { HomeIcon } from "@heroicons/react/24/outline";
+import { HomeIcon, ClockIcon } from "@heroicons/react/24/outline";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -42,18 +42,17 @@ function Navbar(props) {
   };
 
   return (
-    <header className="flex items-center drop-shadow-xl sticky top-0 z-50 p-2 mx-auto bg-white">
-      <ToastContainer />
-      <div className="flex items-center">
+    <header className="flex items-center drop-shadow-xl sticky top-0 z-50 p-2 bg-white">
+      <div className="flex items-center w-1/3 pl-2">
         <h2
-          className="text-2xl md:text-3xl p-2 cursor-pointer"
+          className="text-2xl md:text-3xl cursor-pointer"
           onClick={() => router.push("/")}
         >
           StockX
         </h2>
         <div
           onClick={() => router.push("/")}
-          className="flex gap-1 text-xl pl-6 hover:scale-125 transition cursor-pointer"
+          className="flex gap-1 items-center md:text-xl pl-6 hover:scale-125 transition cursor-pointer"
         >
           <HomeIcon className="w-6 h-6" />
           <span>HOME</span>
@@ -61,18 +60,22 @@ function Navbar(props) {
       </div>
 
       {userLoggedIn ? (
-        <div className="flex justify-items-end items-center">
+        <div className="flex gap-2 w-2/3 justify-end items-center">
           <div
-            className="text-md md:text-2xl p-2 pt-3 hover:scale-125 transition cursor-pointer"
-            onClick={handleSignOut}
+            className="text-md items-center flex gap-1 md:text-2xl p-2 pt-3 hover:scale-125 transition cursor-pointer"
+            onClick={() => router.push("/watchlist")}
           >
+            <ClockIcon className="h-8 w-8" />
+            <span>WatchList</span>
+          </div>
+          <div className="hidden md:inline-flex text-md md:text-2xl p-2 pt-3">
             {userLoggedIn.displayName}
           </div>
           <div
-            className="text-md md:text-xl p-2 pt-3 hover:scale-125 transition cursor-pointer"
-            onClick={() => router.push("/watchlist")}
+            className="text-md md:text-2xl p-2 pt-3 hover:scale-125 transition hover:text-red-500 cursor-pointer"
+            onClick={handleSignOut}
           >
-            WatchList
+            Sign out
           </div>
         </div>
       ) : (

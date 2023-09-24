@@ -22,18 +22,6 @@ function WatchlistDisplay({ stocks }) {
 
   const [userLoggedIn] = useAuthState(auth);
 
-  const colors = [
-    "bg-rose-600",
-    "bg-rose-800",
-    "bg-sky-500",
-    "bg-green-700",
-    "bg-green-400",
-    "bg-fuchsia-700",
-    "bg-fuchsia-900",
-    "bg-indigo-500",
-    "bg-green-600",
-  ];
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -95,8 +83,8 @@ function WatchlistDisplay({ stocks }) {
 
   const tickerBG = () => {
     let style =
-      "inline-block text-center rounded-lg text-xs font-bold text-white px-2 pt-0.5 pb-1 ";
-    style += "bg-black"; //_.sample(colors);
+      "inline-block text-center rounded-lg text-xs font-bold text-white px-2 py-1 ";
+    style += "bg-red-400"; //_.sample(colors);
     return style;
   };
 
@@ -114,7 +102,7 @@ function WatchlistDisplay({ stocks }) {
 
       const options = {
         method: "POST",
-        url: `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${sym}`,
+        url: `${NEXT_PUBLIC_DEV_API_URL}/api/watchlist/${userLoggedIn.uid}/remove/${sym}`,
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -123,7 +111,7 @@ function WatchlistDisplay({ stocks }) {
       };
 
       const res = await fetch(
-        `http://localhost:3000/api/watchlist/${userLoggedIn.uid}/remove/${sym}`,
+        `${NEXT_PUBLIC_DEV_API_URL}/api/watchlist/${userLoggedIn.uid}/remove/${sym}`,
         options
       );
 
@@ -170,120 +158,122 @@ function WatchlistDisplay({ stocks }) {
 
   if (st?.length === 0) return <p>Seems Empty .......</p>;
   return (
-    <div className="h-full w-full border-2 border-stone-300 rounded-lg pt-2 px-4 pb-5 bg-white">
-      <ToastContainer />
-      {/* Sorting options */}
+    <div>
+      <div className="border-2 mx-auto border-stone-300 rounded-lg pt-2 px-4 pb-5 bg-white">
+        <ToastContainer />
+        {/* Sorting options */}
 
-      <div className="my-5 flex relative">
-        <div className="rounded-full bg-blue-500 text-white ml-2 pl-4 pr-3 py-1 flex">
-          <p onClick={toggleMenu} className="cursor-pointer">
-            {sortBy.toUpperCase()}
-          </p>
-          <div className="h-6 w-6 ml-1 cursor-pointer">
-            {asc ? (
-              <ArrowUpIcon onClick={() => setAsc(false)} />
-            ) : (
-              <ArrowDownIcon onClick={() => setAsc(true)} />
-            )}
+        <div className="my-5 flex relative bg-white">
+          <div className="rounded-full bg-blue-500 text-white ml-2 pl-4 pr-3 py-1 flex">
+            <p onClick={toggleMenu} className="cursor-pointer">
+              {sortBy.toUpperCase()}
+            </p>
+            <div className="h-5 w-5 ml-1 cursor-pointer">
+              {asc ? (
+                <ArrowUpIcon onClick={() => setAsc(false)} />
+              ) : (
+                <ArrowDownIcon onClick={() => setAsc(true)} />
+              )}
+            </div>
           </div>
+          {isOpen && (
+            <div
+              className="bg-white absolute mt-10 ml-3.5 rounded-xl p-2 px-3 border-2"
+              onMouseLeave={handleBlur}
+            >
+              <table className="w-full text-black font-bold">
+                <td className="">
+                  <tr
+                    className="border-b hover:text-gray-500 cursor-pointer"
+                    onClick={() => handleSetting("name")}
+                  >
+                    Name
+                  </tr>
+                  <tr
+                    className="border-b hover:text-gray-500 cursor-pointer"
+                    onClick={() => handleSetting("price")}
+                  >
+                    Price
+                  </tr>
+                  <tr
+                    className="hover:text-gray-500 cursor-pointer"
+                    onClick={() => handleSetting("percent")}
+                  >
+                    Change
+                  </tr>
+                </td>
+              </table>
+            </div>
+          )}
         </div>
-        {isOpen && (
-          <div
-            className="bg-white absolute mt-10 ml-3.5 rounded-xl p-2 px-3 border-2"
-            onMouseLeave={handleBlur}
-          >
-            <table className="w-full text-black font-bold">
-              <td className="">
-                <tr
-                  className="border-b hover:text-gray-500 cursor-pointer"
-                  onClick={() => handleSetting("name")}
-                >
-                  Name
-                </tr>
-                <tr
-                  className="border-b hover:text-gray-500 cursor-pointer"
-                  onClick={() => handleSetting("price")}
-                >
-                  Price
-                </tr>
-                <tr
-                  className="hover:text-gray-500 cursor-pointer"
-                  onClick={() => handleSetting("percent")}
-                >
-                  Change
-                </tr>
-              </td>
-            </table>
-          </div>
-        )}
-      </div>
 
-      {/* Table */}
-      <table className="w-full h-full rounded-xl text-left">
-        <tbody>
-          {st
-            ?.sort((a, b) => {
-              let s = "stockName";
-              switch (sortBy) {
-                case "name":
-                  s = "stockName";
-                  break;
-                case "percent":
-                  s = "stockPercentChange";
-                  break;
-                case "price":
-                  s = "stockPrice";
-                  break;
-                default:
-                  s = "stockName";
-              }
+        {/* Table */}
+        <table className="w-full h-full rounded-xl text-left">
+          <tbody>
+            {st
+              ?.sort((a, b) => {
+                let s = "stockName";
+                switch (sortBy) {
+                  case "name":
+                    s = "stockName";
+                    break;
+                  case "percent":
+                    s = "stockPercentChange";
+                    break;
+                  case "price":
+                    s = "stockPrice";
+                    break;
+                  default:
+                    s = "stockName";
+                }
 
-              if (s === "stockName") {
-                if (asc) return a.stockName.localeCompare(b.stockName);
-                return -1 * a.stockName.localeCompare(b.stockName);
-              }
+                if (s === "stockName") {
+                  if (asc) return a.stockName.localeCompare(b.stockName);
+                  return -1 * a.stockName.localeCompare(b.stockName);
+                }
 
-              if (asc) {
-                return a[s] - b[s];
-              }
-              return b[s] - a[s];
-            })
-            .map((stock) => (
-              <tr
-                key={stock.stockName}
-                className="border-b cursor-pointer"
-                // onClick={() => router.push("/home/" + stock.stockSymbol)}
-              >
-                <td className="py-3 pr-1 w-fit">
-                  <div className={tickerBG()}>{stock.stockSymbol}</div>
-                </td>
-                <td className="bg-gray font-normal text-black text-m sm:text-lg">
-                  {stock.stockName}
-                </td>
-                {/*
+                if (asc) {
+                  return a[s] - b[s];
+                }
+                return b[s] - a[s];
+              })
+              .map((stock) => (
+                <tr
+                  key={stock.stockName}
+                  className="border-b cursor-pointer"
+                  // onClick={() => router.push("/stock/" + stock.stockSymbol)}
+                >
+                  <td className="py-3 pr-1 w-16">
+                    <div className={tickerBG()}>{stock.stockSymbol}</div>
+                  </td>
+                  <td className="bg-gray font-normal w-96 text-black text-m sm:text-lg">
+                    {stock.stockName}
+                  </td>
+                  {/*
                 <td className="text-sm sm:text-base pr-3 font-semibold text-black">
                 ${stock.lastPrice.toFixed(3)}
               </td>
               */}
 
-                <td className={pricesign(stock.stockPrice)}>
-                  {stock.stockPrice.toFixed(2)}
-                </td>
-                <td>
-                  <div className={percentsign(stock.stockPercentChange)}>
-                    {stock.stockPercentChange.toFixed(2)}%
-                  </div>
-                </td>
-                <td className="pl-4">
-                  <TrashIcon
-                    onClick={() => handleDelete(stock.stockSymbol)}
-                    className="h-12 w-12 hover:scale-150 transition ease-in-out duration-200 hover:text-red-500 px-3 cursor-pointer"
-                  />
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
+                  <td className={pricesign(stock.stockPrice)}>
+                    {stock.stockPrice.toFixed(2)}
+                  </td>
+                  <td>
+                    <div className={percentsign(stock.stockPercentChange)}>
+                      {stock.stockPercentChange.toFixed(2)}%
+                    </div>
+                  </td>
+                  <td className="pl-4">
+                    <TrashIcon
+                      onClick={() => handleDelete(stock.stockSymbol)}
+                      className="h-12 w-12 hover:scale-150 transition ease-in-out duration-200 hover:text-red-500 px-3 cursor-pointer"
+                    />
+                  </td>
+                </tr>
+              ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
