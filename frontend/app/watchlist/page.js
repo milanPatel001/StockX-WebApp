@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/NavBar";
 import WatchlistDisplay from "@/components/WatchlistDisplay";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 function WatchList() {
   const [userLoggedIn] = useAuthState(auth);
