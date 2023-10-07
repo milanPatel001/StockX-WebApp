@@ -11,30 +11,12 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { activeTab, percentsign } from "@/utils/extra";
 
 export default function StockMain({ stockData, graphData, bio, growthStocks }) {
   const [currentTab, setCurrentTab] = useState("1D");
   const [watchlist, setWatchlist] = useState([]);
   const [userLoggedIn] = useAuthState(auth);
-
-  function activeTab(tab) {
-    var style =
-      "py-1 px-4 text-sm font-medium text-gray-900 bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700";
-
-    if (tab === currentTab)
-      style =
-        "py-1 px-4 text-sm font-medium text-blue-700 bg-blue-100 rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 ring-1 z-10 ring-gray-200";
-
-    return style;
-  }
-
-  function percentsign(percent) {
-    let percentsign =
-      "inline-block px-3 pl-4 my-4 ml-5 py-2 w-fit text-xl font-bold rounded-lg text-center ";
-    percentsign +=
-      percent > 0 ? "bg-green-100 text-green-800" : "bg-rose-100 text-rose-700";
-    return percentsign;
-  }
 
   const getData = async () => {
     const res = await fetch(

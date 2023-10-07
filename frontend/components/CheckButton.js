@@ -144,7 +144,9 @@ export default function CheckButton({
 
   const checkStockInWatchlist = async () => {
     // console.log(symbol);
-    const found = watchlist?.find((st) => st.stockSymbol == symbol);
+    const found = watchlist?.find(
+      (st) => st.stockSymbol.toUpperCase() === symbol.toUpperCase()
+    );
 
     if (found?.stockSymbol) {
       console.log(found);
