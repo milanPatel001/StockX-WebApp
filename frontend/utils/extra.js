@@ -73,7 +73,7 @@ export function activeTab(tab) {
   return style;
 }
 
-export function percentsign(percent) {
+export function percentSignPage(percent) {
   let percentsign =
     "inline-block px-3 pl-4 my-4 ml-5 py-2 w-fit text-xl font-bold rounded-lg text-center ";
   percentsign +=

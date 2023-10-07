@@ -11,7 +11,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { activeTab, percentsign } from "@/utils/extra";
+import { activeTab, percentSignPage } from "@/utils/extra";
 
 export default function StockMain({ stockData, graphData, bio, growthStocks }) {
   const [currentTab, setCurrentTab] = useState("1D");
@@ -64,7 +64,7 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
                   ${stockData?.quote.regularMarketPrice}
                 </div>
                 <div
-                  className={percentsign(
+                  className={percentSignPage(
                     stockData?.quote.regularMarketChangePercent
                   )}
                 >
