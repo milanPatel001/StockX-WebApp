@@ -62,7 +62,7 @@ export function searchTickerBG() {
   return tickers;
 }
 
-export function activeTab(tab) {
+export function activeTab(tab, currentTab) {
   var style =
     "py-1 px-4 text-sm font-medium text-gray-900 bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700";
 

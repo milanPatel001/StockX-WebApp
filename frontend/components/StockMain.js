@@ -75,19 +75,19 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
               <div className="py-4">
                 <div className="flex pt-1.5 pb-4 pl-2 gap-2">
                   <button
-                    className={activeTab("1D")}
+                    className={activeTab("1D", currentTab)}
                     onClick={() => setCurrentTab("1D")}
                   >
                     1D
                   </button>
                   <button
-                    className={activeTab("5D")}
+                    className={activeTab("5D", currentTab)}
                     onClick={() => setCurrentTab("5D")}
                   >
                     5D
                   </button>
                   <button
-                    className={activeTab("1M")}
+                    className={activeTab("1M", currentTab)}
                     onClick={() => setCurrentTab("1M")}
                   >
                     1M
