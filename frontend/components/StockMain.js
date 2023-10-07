@@ -66,33 +66,15 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
                 </div>
 
                 <div className="py-2 ml-1.5 mt-3.5 cursor-pointer">
-                  {userLoggedIn?.uid && (
-                    <CheckButton
-                      watchlist={watchlist}
-                      stock={stockData}
-                      name={stockData.quote.shortName}
-                      symbol={stockData?.underlyingSymbol}
-                      price={stockData.quote.regularMarketPrice}
-                      change={stockData.quote.regularMarketChangePercent}
-                    />
-                  )}
+                  <CheckButton
+                    watchlist={watchlist}
+                    stock={stockData}
+                    name={stockData.quote.shortName}
+                    symbol={stockData?.underlyingSymbol}
+                    price={stockData.quote.regularMarketPrice}
+                    change={stockData.quote.regularMarketChangePercent}
+                  />
                 </div>
-
-                {/*userLoggedIn && (
-                  <div className="py-2 ml-1.5 mt-3.5 cursor-pointer">
-                    {checked == false ? (
-                      <PlusCircleIcon
-                        onClick={handleCheck}
-                        className="h-6 w-6 hover:scale-125 hover:text-blue-500"
-                      />
-                    ) : (
-                      <CheckCircleIcon
-                        onClick={handleUncheck}
-                        className="h-6 w-6 text-blue-500 hover:scale-125"
-                      />
-                    )}
-                  </div>
-                    )*/}
               </div>
 
               <div className="flex flex-row">
