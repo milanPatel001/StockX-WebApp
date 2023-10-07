@@ -3,7 +3,7 @@ const router = express.Router();
 const { db, auth } = require("../auth/firebaseConfig");
 const firebaseAuth = require("../middleware/firebaseToken");
 
-router.post("/:uid/add", firebaseAuth, async (req, res) => {
+router.post("/:uid/add", async (req, res) => {
   console.log(req.body);
   try {
     await db
@@ -24,7 +24,7 @@ router.post("/:uid/add", firebaseAuth, async (req, res) => {
   }
 });
 
-router.post("/:uid/remove/:symbol", firebaseAuth, async (req, res) => {
+router.post("/:uid/remove/:symbol", async (req, res) => {
   try {
     await db
       .collection("users")
@@ -39,7 +39,7 @@ router.post("/:uid/remove/:symbol", firebaseAuth, async (req, res) => {
   }
 });
 
-router.get("/:uid", firebaseAuth, async (req, res) => {
+router.get("/:uid", async (req, res) => {
   const stocks = [];
   try {
     const snapshot = await db
@@ -57,7 +57,7 @@ router.get("/:uid", firebaseAuth, async (req, res) => {
   }
 });
 
-router.get("/:uid/:symbol", firebaseAuth, async (req, res) => {
+router.get("/:uid/:symbol", async (req, res) => {
   try {
     const doc = await db
       .collection("users")
