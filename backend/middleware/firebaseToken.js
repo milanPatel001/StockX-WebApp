@@ -1,10 +1,11 @@
-const { db, auth } = require("../auth/firebaseConfig");
+const { auth } = require("../auth/firebaseConfig");
 
 const firebaseAuth = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  const idToken = authHeader.split(" ")[1];
 
   if (authHeader) {
+    const idToken = authHeader.split(" ")[1];
+
     auth
       .verifyIdToken(idToken)
       .then((decodedToken) => {
@@ -15,7 +16,7 @@ const firebaseAuth = async (req, res, next) => {
         res.status(404).send({ passed: false });
       });
   } else {
-    res.status(401).send({ passed: false });
+    res.status(403).send({ passed: false });
   }
 };
 

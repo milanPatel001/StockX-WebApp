@@ -7,13 +7,14 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/NavBar";
 import WatchlistDisplay from "@/components/WatchlistDisplay";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
 
 function WatchList() {
   const [userLoggedIn] = useAuthState(auth);
   const [stocks, setStocks] = useState([]);
+  const router = useRouter();
 
   useEffect(() => {
-    console.log(userLoggedIn?.uid);
     const getData = async () => {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/watchlist/${userLoggedIn.uid}`
@@ -25,9 +26,8 @@ function WatchList() {
     };
 
     if (userLoggedIn?.uid) getData();
+    else router.replace("/");
   }, [userLoggedIn]);
-
-  if (!userLoggedIn?.uid) return <div>EMPTY</div>;
 
   return (
     <div className="bg-gray-50 mx-auto">
