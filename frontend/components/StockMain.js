@@ -20,7 +20,7 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
 
   const getData = async () => {
     const res = await fetch(
-      `${NEXT_PUBLIC_DEV_API_URL}/api/watchlist/${userLoggedIn.uid}`
+      `${process.env.NEXT_PUBLIC_DEV_API_URL}/api/watchlist/${userLoggedIn.uid}`
     );
     const data = await res.json();
 
