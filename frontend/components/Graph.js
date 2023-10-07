@@ -117,14 +117,14 @@ function Graph({ graphData }) {
             backgroundColor: gradient,
           },
           point: {
-            radius: 0,
-            hitRadius: 0,
+            radius: 2,
+            hitRadius: 6,
           },
         },
         scales: {
           x: {
             ticks: {
-              maxTicksLimit: 5,
+              maxTicksLimit: 6,
             },
           },
         },

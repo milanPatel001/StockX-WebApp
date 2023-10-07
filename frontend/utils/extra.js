@@ -1,15 +1,13 @@
 import _ from "lodash";
 
 const colors = [
-  "bg-rose-600",
   "bg-rose-800",
   "bg-sky-500",
-  "bg-green-700",
-  "bg-green-400",
   "bg-fuchsia-700",
   "bg-fuchsia-900",
   "bg-indigo-500",
   "bg-green-600",
+  "bg-red-400",
 ];
 
 export function tickerBG() {
@@ -75,7 +73,7 @@ export function activeTab(tab, currentTab) {
 
 export function percentSignPage(percent) {
   let percentsign =
-    "inline-block px-3 pl-4 my-4 ml-5 py-2 w-fit text-xl font-bold rounded-lg text-center ";
+    "inline-flex h-fit text-center px-2 py-2 pl-3 text-xl font-bold rounded-lg text-center ";
   percentsign +=
     percent > 0 ? "bg-green-100 text-green-800" : "bg-rose-100 text-rose-700";
   return percentsign;

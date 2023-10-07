@@ -59,7 +59,7 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
                 </div>
               </div>
 
-              <div className="flex flex-row">
+              <div className="flex flex-row gap-4 items-center">
                 <div className="inline-block py-2 text-6xl font-semibold font-mono">
                   ${stockData?.quote.regularMarketPrice}
                 </div>

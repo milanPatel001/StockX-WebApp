@@ -4,7 +4,9 @@ import { useRouter } from "next/navigation";
 import { percentsign, pricesign, tickerBG } from "@/utils/extra";
 
 function TableRow({ stock, watchlist }) {
-  const [tickerColor, setTickerColor] = useState("");
+  const [tickerColor, setTickerColor] = useState(
+    "inline-block text-center rounded-lg text-xs font-bold text-black border-black border-1 px-2 pt-0.5 pb-1"
+  );
   const [priceColor, setPriceColor] = useState("");
   const [percentColor, setPercentColor] = useState("");
 
