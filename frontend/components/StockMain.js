@@ -102,20 +102,22 @@ export default function StockMain({ stockData, graphData, bio, growthStocks }) {
             </div>
           </div>
 
-          <div>
-            <p className="bg-white px-3 pb-4 pt-3 font-semibold text-3xl">
-              About
-            </p>
-            <div className="container border border-gray-400 rounded-xl bg-white mx-auto py-2 px-4 ">
-              <div
-                className="container p-2 text-lg first-line:uppercase first-line:tracking-widest
+          {bio?.assetProfile?.longBusinessSummary && (
+            <div>
+              <p className="bg-white px-3 pb-4 pt-3 font-semibold text-3xl">
+                About
+              </p>
+              <div className="container border border-gray-400 rounded-xl bg-white mx-auto py-2 px-4 ">
+                <div
+                  className="container p-2 text-lg first-line:uppercase first-line:tracking-widest
                                     first-letter:text-7xl first-letter:font-bold first-letter:text-slate-900
                                         first-letter:mr-3 first-letter:float-left"
-              >
-                {bio?.assetProfile?.longBusinessSummary}
+                >
+                  {bio?.assetProfile?.longBusinessSummary}
+                </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="hidden xl:inline-block w-full pl-4 pt-3 mt-3 text-xl font-semibold">
             You might Like:
           </div>

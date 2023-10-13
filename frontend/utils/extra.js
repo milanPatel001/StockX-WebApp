@@ -1,5 +1,38 @@
 import _ from "lodash";
 
+export const miniData = [
+  {
+    percent: "+0.72",
+    price: "33,845.43",
+    symbol: "APP",
+    name: "Dow Jones",
+  },
+  {
+    percent: "+1.00",
+    price: "4379.09",
+    symbol: "APP",
+    name: "S&P 500",
+  },
+  {
+    percent: "+1.15",
+    price: "13,640.41",
+    symbol: "APP",
+    name: "Nasdaq",
+  },
+  {
+    percent: "+1.51",
+    price: "1782.61",
+    symbol: "APP",
+    name: "Russell",
+  },
+  {
+    percent: "-5.99",
+    price: "16.64",
+    symbol: "APP",
+    name: "VIX",
+  },
+];
+
 const colors = [
   "bg-rose-800",
   "bg-sky-500",
@@ -80,15 +113,16 @@ export function percentSignPage(percent) {
 }
 
 export function abbreviateNumber(number) {
-  const SYMBOL = ["M", "B", "T"];
+  const SYMBOL = ["", "K", "M", "B", "T"];
 
-  // Ensure the input is a number
   if (isNaN(number)) return "Invalid input";
 
   // Determine the order of magnitude (K, M, B, T)
   const order = Math.floor(Math.log10(Math.abs(number)) / 3);
 
-  // Calculate the abbreviated number
+  if (order < 2) return (number * 1).toFixed(2);
+
+  // Calculate the scientific notation
   const scaledNumber = number / Math.pow(10, order * 3);
 
   // Format the number with a fixed number of decimal places
@@ -96,4 +130,17 @@ export function abbreviateNumber(number) {
 
   // Append the SI symbol for the order of magnitude
   return formattedNumber + SYMBOL[order];
+}
+
+export function percentsignStockMini(percent) {
+  let percentsign = "flex flex-row w-full justify-end text-m ";
+  percentsign += percent > 0 ? "text-green-800" : "text-rose-700";
+  return percentsign;
+}
+
+export function tickerBGStockMini(color) {
+  let style =
+    "text-xs color-white text-center rounded-lg font-bold text-white px-1 mt-1 py-0.5 ";
+  style += color;
+  return style;
 }

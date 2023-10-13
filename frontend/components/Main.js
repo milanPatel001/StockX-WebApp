@@ -44,19 +44,6 @@ export default function Main({ marketMovers, popularStocks, marketNews }) {
         <div className="flex h-auto p-2 py-4 space-x-7 justify-center bg-gray-50">
           <ToastContainer />
           <StockCardMini />
-          <StockCardMini />
-
-          <div className="hidden md:inline-flex">
-            <StockCardMini />
-          </div>
-
-          <div className="hidden lg:inline-flex">
-            <StockCardMini />
-          </div>
-
-          <div className="hidden xl:inline-flex">
-            <StockCardMini />
-          </div>
         </div>
 
         <div className="relative p-4 max-w-2xl mx-auto">

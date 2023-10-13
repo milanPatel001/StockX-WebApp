@@ -1,5 +1,6 @@
 "use client";
 
+import { abbreviateNumber } from "@/utils/extra";
 import { useState } from "react";
 
 function SideBlock(props) {
@@ -18,7 +19,9 @@ function SideBlock(props) {
           MARKET CAP
         </div>
         <div className="container text-end text-lg pr-5 font-semibold">
-          ${props?.stockData?.quote.marketCap}
+          $
+          {props?.stockData?.quote.marketCap &&
+            abbreviateNumber(props?.stockData?.quote.marketCap)}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -42,7 +45,9 @@ function SideBlock(props) {
           P/E RATIO
         </div>
         <div className="container text-end pr-5 text-lg font-semibold">
-          {props?.stockData?.quote.forwardPE}
+          {props?.stockData?.quote.forwardPE
+            ? props?.stockData?.quote.forwardPE
+            : "-"}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -50,7 +55,9 @@ function SideBlock(props) {
           TRAILING P/E
         </div>
         <div className="container text-end pr-5 text-lg font-semibold">
-          {props?.stockData?.quote.trailingPE}
+          {props?.stockData?.quote.trailingPE
+            ? props?.stockData?.quote.trailingPE
+            : "-"}
         </div>
       </div>
       <div className="flex flex-row pt-2">
@@ -58,7 +65,9 @@ function SideBlock(props) {
           TRAILING ANNUAL DIVIDEND RATE
         </div>
         <div className="container text-end pr-5 text-lg font-semibold">
-          {props?.stockData?.quote.trailingAnnualDividendRate}
+          {props?.stockData?.quote.trailingAnnualDividendRate
+            ? props?.stockData?.quote.trailingAnnualDividendRate
+            : "-"}
         </div>
       </div>
       <div className="flex flex-row pt-2">

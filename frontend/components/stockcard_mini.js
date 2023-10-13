@@ -1,64 +1,61 @@
 "use client";
 
+import {
+  miniData,
+  percentsignStockMini,
+  tickerBGStockMini,
+} from "@/utils/extra";
+import {
+  ArrowUpCircleIcon,
+  ArrowDownCircleIcon,
+} from "@heroicons/react/24/outline";
 import _ from "lodash";
 import { useRouter } from "next/navigation";
 
 import { useEffect, useState } from "react";
 
+const calcDisp = (i, sign) => {
+  let miniStyle =
+    "h-16 w-52 transition duration-300 hover:scale-105 flex flex-row rounded-xl items-center border-2 border-slate-300 ";
+
+  if (sign[0] === "-") miniStyle += "bg-red-50 ";
+  else miniStyle += "bg-green-50 ";
+
+  if (i == 2) miniStyle += "hidden md:inline-flex";
+  else if (i == 3) miniStyle += "hidden lg:inline-flex";
+  else if (i == 4) miniStyle += "hidden xl:inline-flex";
+  return miniStyle;
+};
+
 function StockCardMini(props) {
-  const data = {
-    percent: "-30",
-    price: "$20.2",
-    symbol: "APP",
-    name: "Demo_Stock INC.",
-  };
-
-  const router = useRouter();
-  const [color, setColor] = useState();
-
-  const colors = [
-    "bg-rose-600",
-    "bg-rose-800",
-    "bg-sky-500",
-    "bg-green-700",
-    "bg-green-500",
-    "bg-fuchsia-700",
-    "bg-fuchsia-900",
-    "bg-indigo-500",
-    "bg-green-600",
-  ];
-
-  function percentsign(percent) {
-    let percentsign = "pl-4 text-m ";
-    percentsign += percent > 0 ? "text-green-800" : "text-rose-700";
-    return percentsign;
-  }
-
-  function tickerBG() {
-    let style =
-      "inline-block ml-4 text-xs text-center rounded-lg font-bold text-white px-1 mt-1 py-0.5 ";
-    style += color;
-    return style;
-  }
-
-  useEffect(() => {
-    setColor(_.sample(colors));
-  }, [data]);
-
   return (
-    <div
-      className="flex flex-col border-2 border-slate-300 gap-1 h-16 w-52 py-1 px-1 rounded-xl bg-white transition duration-300 hover:bg-gray-50 hover:scale-125 cursor-pointer"
-      onClick={() => router.push("/home/" + data.symbol)}
-    >
-      <div className="flex flex-row h-6">
-        <div className={tickerBG()}>{data.symbol}</div>
-        <div className="text-sm font-bold pl-2 pt-0.5">{data.name}</div>
-      </div>
+    <div className="flex flex-row gap-5">
+      {miniData.map((mini, i) => (
+        <div className={calcDisp(i, mini.percent)} key={i}>
+          <div>
+            {mini.percent[0] === "-" ? (
+              <ArrowDownCircleIcon className="h-8 w-8 text-red-500" />
+            ) : (
+              <ArrowUpCircleIcon className="h-8 w-8 text-green-500" />
+            )}
+          </div>
+          <div className="flex flex-col gap-1 py-1 px-1 w-full">
+            <div className="flex flex-row h-1/2">
+              {/* <div className={tickerBGStockMini("bg-rose-500")}>
+                {mini.symbol}
+              </div> */}
+              <div className="text-sm font-bold">{mini.name}</div>
+            </div>
 
-      <div className="flex flex-row h-4">
-        <div className={percentsign(data.percent)}>{data.percent}%</div>
-        <div className="font-bold text-m pl-8">{data.price}</div>
-      </div>
+            <div className="flex flex-row h-1/2">
+              <div className="font-bold text-m">{mini.price}</div>
+              <div className={percentsignStockMini(mini.percent)}>
+                {mini.percent}%
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

@@ -30,19 +30,6 @@ export default async function StockPage({ params }) {
 
       <div className="flex flex-row h-auto p-2 py-4 gap-7 justify-center">
         <StockCardMini />
-        <StockCardMini />
-
-        <div className="hidden md:inline-flex">
-          <StockCardMini />
-        </div>
-
-        <div className="hidden lg:inline-flex">
-          <StockCardMini />
-        </div>
-
-        <div className="hidden xl:inline-flex">
-          <StockCardMini />
-        </div>
       </div>
 
       <div className="relative p-4 max-w-2xl mx-auto">
