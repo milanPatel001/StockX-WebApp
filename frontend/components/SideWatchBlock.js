@@ -12,7 +12,7 @@ export default function SideWatchBlock({ watchlist }) {
       </div>
 
       {watchlist?.map((w) => (
-        <>
+        <div key={w.stockName}>
           <div className="w-full border border-gray-100"></div>
           <div className="flex flex-row" key={w.stockName}>
             <div className="flex w-3/4 font-semibold text-lg">
@@ -22,7 +22,7 @@ export default function SideWatchBlock({ watchlist }) {
               $ {w.stockPrice}
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );
