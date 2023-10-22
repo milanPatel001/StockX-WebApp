@@ -6,6 +6,8 @@ const login = require("./routes/login");
 const watchlist = require("./routes/watchlist");
 const cors = require("cors");
 const firebaseAuth = require("./middleware/firebaseToken");
+const requestCache = require("./middleware/requestCache");
+const redisClient = require("./redisConfig");
 
 require("dotenv").config();
 
@@ -17,5 +19,14 @@ app.use("/api/login", login);
 app.use("/api/watchlist", watchlist);
 
 app.use(firebaseAuth);
+app.use(requestCache);
+
+(async () => {
+  redisClient.on("error", (err) => console.log("Redis Client Error", err));
+
+  redisClient.on("ready", () => console.log("Redis Ready"));
+
+  await redisClient.connect();
+})();
 
 app.listen(process.env.PORT || 3000, () => console.log("Connected"));

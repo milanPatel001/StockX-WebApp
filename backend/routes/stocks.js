@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 const _ = require("lodash");
+const redisClient = require("../redisConfig");
+const requestCache = require("../middleware/requestCache");
 require("dotenv").config();
 
 const options = {
@@ -12,7 +14,7 @@ const options = {
   "Access-Control-Allow-Methods": "PUT, POST, GET, DELETE, PATCH, OPTIONS",
 };
 
-router.get("/market_movers", (req, res) => {
+router.get("/market_movers", requestCache, (req, res) => {
   var opt = {
     method: "GET",
     url: "https://ms-finance.p.rapidapi.com/market/v2/get-movers",
@@ -25,9 +27,11 @@ router.get("/market_movers", (req, res) => {
   axios
     .request(opt)
     .then(function (response) {
-      //console.log("Market Movers: ");
-      //  console.log(response.data);
       res.set(options);
+
+      const cacheKey = req.originalUrl;
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data));
+
       res.status(200).send(response.data);
     })
     .catch(function (error) {
@@ -36,7 +40,7 @@ router.get("/market_movers", (req, res) => {
     });
 });
 
-router.get("/trending", async (req, res) => {
+router.get("/trending", requestCache, async (req, res) => {
   var opt = {
     method: "GET",
     url: "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/v1/finance/trending/US",
@@ -50,6 +54,12 @@ router.get("/trending", async (req, res) => {
     .request(opt)
     .then(function (response) {
       //console.log(response.data.finance.result[0].quotes);
+      const cacheKey = req.originalUrl;
+      redisClient.SETEX(
+        cacheKey,
+        3600,
+        JSON.stringify(response.data.finance.result[0].quotes)
+      );
       res.set(options).send(response.data.finance.result[0].quotes);
     })
     .catch(function (error) {
@@ -58,7 +68,7 @@ router.get("/trending", async (req, res) => {
     });
 });
 
-router.get("/marketNews", async (req, res) => {
+router.get("/marketNews", requestCache, async (req, res) => {
   const opt = {
     method: "GET",
     url: "https://mboum-finance.p.rapidapi.com/ne/news",
@@ -71,8 +81,9 @@ router.get("/marketNews", async (req, res) => {
   axios
     .request(opt)
     .then(function (response) {
-      //console.log("NEWS: ");
-      //console.log(response.data);
+      const cacheKey = req.originalUrl;
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data));
+
       res.set(options).send(response.data);
     })
     .catch(function (error) {
@@ -81,17 +92,7 @@ router.get("/marketNews", async (req, res) => {
     });
 });
 
-router.get("/popular", async (req, res) => {
-  // var opt = {
-  //   method: "GET",
-  //   url: "https://stock-data-yahoo-finance-alternative.p.rapidapi.com/ws/screeners/v1/finance/screener/predefined/saved",
-  //   params: { scrIds: "day_gainers" },
-  //   headers: {
-  //     "x-rapidapi-host": "stock-data-yahoo-finance-alternative.p.rapidapi.com",
-  //     "x-rapidapi-key": process.env.RAPID_API_KEY,
-  //   },
-  // };
-
+router.get("/popular", requestCache, async (req, res) => {
   var opt = {
     method: "GET",
     url: "https://yahoo-finance15.p.rapidapi.com/api/yahoo/co/collections/day_gainers",
@@ -105,9 +106,9 @@ router.get("/popular", async (req, res) => {
   axios
     .request(opt)
     .then(function (response) {
-      //console.log("POPULAR");
-      //console.log(response.data.finance.result[0].quotes);
-      //res.set(options).send(response.data.finance.result[0].quotes);
+      const cacheKey = req.originalUrl;
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data.quotes));
+
       res.set(options).send(response.data.quotes);
     })
     .catch(function (error) {
@@ -116,7 +117,7 @@ router.get("/popular", async (req, res) => {
     });
 });
 
-router.get("/growthTechStocks", async (req, res) => {
+router.get("/growthTechStocks", requestCache, async (req, res) => {
   const opt = {
     method: "GET",
     url: "https://mboum-finance.p.rapidapi.com/co/collections/growth_technology_stocks",
@@ -130,6 +131,9 @@ router.get("/growthTechStocks", async (req, res) => {
   axios
     .request(opt)
     .then(function (response) {
+      const cacheKey = req.originalUrl;
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data.quotes));
+
       res.set(options).send(response.data.quotes);
     })
     .catch(function (error) {
@@ -138,8 +142,7 @@ router.get("/growthTechStocks", async (req, res) => {
     });
 });
 
-router.get("/bio/:symbol", (req, res) => {
-  // console.log(req.params.symbol);
+router.get("/bio/:symbol", requestCache, (req, res) => {
   const opt = {
     method: "GET",
     url: "https://mboum-finance.p.rapidapi.com/mo/module/",
@@ -155,7 +158,9 @@ router.get("/bio/:symbol", (req, res) => {
   axios
     .request(opt)
     .then(function (response) {
-      //console.log(response.data);
+      const cacheKey = req.originalUrl;
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data));
+
       res.set(options).send(response.data);
     })
     .catch(function (error) {
@@ -164,7 +169,7 @@ router.get("/bio/:symbol", (req, res) => {
     });
 });
 
-router.get("/:symbol", (req, res) => {
+router.get("/:symbol", requestCache, (req, res) => {
   const opt = {
     method: "GET",
     url: "https://mboum-finance.p.rapidapi.com/op/option",
@@ -178,7 +183,13 @@ router.get("/:symbol", (req, res) => {
   axios
     .request(opt)
     .then(function (response) {
-      //console.log(response.data.optionChain.result[0]);
+      const cacheKey = req.originalUrl;
+      redisClient.SETEX(
+        cacheKey,
+        3600,
+        JSON.stringify(response.data.optionChain.result[0])
+      );
+
       res.set(options).send(response.data.optionChain.result[0]);
     })
     .catch(function (error) {
@@ -187,7 +198,7 @@ router.get("/:symbol", (req, res) => {
     });
 });
 
-router.get("/autocomplete/:symbol?", (req, res) => {
+router.get("/autocomplete/:symbol?", requestCache, (req, res) => {
   let sym = req.params.symbol ? req.params.symbol : "a";
   var opt = {
     method: "GET",
@@ -202,6 +213,13 @@ router.get("/autocomplete/:symbol?", (req, res) => {
   axios
     .request(opt)
     .then(function (response) {
+      const cacheKey = req.originalUrl;
+      redisClient.SETEX(
+        cacheKey,
+        3600,
+        JSON.stringify(response.data.ResultSet)
+      );
+
       res.set(options).send(response.data.ResultSet);
     })
     .catch(function (error) {
@@ -210,7 +228,7 @@ router.get("/autocomplete/:symbol?", (req, res) => {
     });
 });
 
-router.get("/stockGraph/:symbol/:period?", async (req, res) => {
+router.get("/stockGraph/:symbol/:period?", requestCache, async (req, res) => {
   console.log(req.params.period);
   const opt = {
     method: "GET",
@@ -229,6 +247,9 @@ router.get("/stockGraph/:symbol/:period?", async (req, res) => {
   axios
     .request(opt)
     .then(function (response) {
+      const cacheKey = req.originalUrl;
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data));
+
       res.set(options).send(response.data);
     })
     .catch(function (error) {
