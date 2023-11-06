@@ -32,7 +32,7 @@ export default function NewsBigBlock({ news }) {
               {n.source}
             </div>
             <div className="inline-block pl-3 text-gray-600 font-mono">
-              {n.pubDate.slice(0, 10)}
+              {n.pubDate && n.pubDate.slice(0, 10)}
             </div>
           </div>
 
