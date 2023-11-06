@@ -25,7 +25,7 @@ export default function NewsBigBlock({ news }) {
 
   return (
     <React.Fragment>
-      {marketnews?.slice(0, 10).map((n) => (
+      {marketnews?.body.slice(0, 10).map((n) => (
         <div key={n.title} className="flex flex-col p-2 hover:bg-gray-100">
           <div className="container pb-2">
             <div className="inline-block font-semibold text-gray-500">
