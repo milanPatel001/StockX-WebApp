@@ -76,7 +76,7 @@ export default function Main({ marketMovers, popularStocks, marketNews }) {
                 Popular Stocks
               </p>
               <div className="flex h-auto p-2 py-4 space-x-7 justify-center">
-                {popularStocks?.slice(0, 5).map((s, i) => (
+                {popularStocks?.map((s, i) => (
                   <div key={i} className="hidden xl:inline-flex">
                     <StockCard
                       key={s?.symbol}

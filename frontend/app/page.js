@@ -14,14 +14,12 @@ export default async function Home() {
     res3.json(),
   ]);
 
-  //console.log(process.env.NEXT_PUBLIC_DEV_API_URL);
-
   return (
     <>
       <Navbar />
       <Main
         marketNews={marketNews}
-        popularStocks={popularStocks}
+        popularStocks={popularStocks.slice(0, 5)}
         marketMovers={marketMovers}
       />
     </>
