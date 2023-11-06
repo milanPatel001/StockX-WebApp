@@ -82,9 +82,9 @@ router.get("/marketNews", requestCache, async (req, res) => {
     .request(opt)
     .then(function (response) {
       const cacheKey = req.originalUrl;
-      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data));
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data.body));
 
-      res.set(options).send(response.data);
+      res.set(options).send(response.data.body);
     })
     .catch(function (error) {
       console.error(error);
