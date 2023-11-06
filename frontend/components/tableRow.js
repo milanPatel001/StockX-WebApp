@@ -50,4 +50,4 @@ function TableRow({ stock, watchlist }) {
   );
 }
 
-export default TableRow;
+export default React.memo(TableRow);

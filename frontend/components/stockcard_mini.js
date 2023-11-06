@@ -16,10 +16,10 @@ import { useEffect, useState } from "react";
 
 const calcDisp = (i, sign) => {
   let miniStyle =
-    "h-16 w-52 transition duration-300 hover:scale-105 flex flex-row rounded-xl items-center border-2 border-slate-300 ";
+    "h-16 w-52 transition duration-300 hover:scale-105 flex flex-row rounded-xl items-center border-2 bg-opacity-30 ";
 
-  if (sign[0] === "-") miniStyle += "bg-red-50 ";
-  else miniStyle += "bg-green-50 ";
+  if (sign[0] === "-") miniStyle += "bg-red-50 border-red-300 ";
+  else miniStyle += "bg-green-50 border-green-300 ";
 
   if (i == 2) miniStyle += "hidden md:inline-flex";
   else if (i == 3) miniStyle += "hidden lg:inline-flex";
@@ -29,7 +29,7 @@ const calcDisp = (i, sign) => {
 
 function StockCardMini(props) {
   return (
-    <div className="flex flex-row gap-5">
+    <div className="flex flex-row gap-5 cursor-default">
       {miniData.map((mini, i) => (
         <div className={calcDisp(i, mini.percent)} key={i}>
           <div>

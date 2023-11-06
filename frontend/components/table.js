@@ -9,8 +9,6 @@ function Table({ marketMovers, watchlist }) {
   const [movers, setMarketMovers] = useState([]);
   const [marketTab, setMarketTab] = useState([]);
 
-  const router = useRouter();
-
   function activeTab(tab) {
     var style =
       "py-1 px-4 text-sm font-medium text-gray-900 bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700";
@@ -65,8 +63,8 @@ function Table({ marketMovers, watchlist }) {
       <div className="h-full w-full border-2 border-stone-300 rounded-3xl pt-2 px-4 pb-5 bg-white">
         <table className="w-full h-full rounded-xl text-left">
           <tbody>
-            {marketTab?.map((stock, i) => (
-              <TableRow key={i} stock={stock} watchlist={watchlist} />
+            {marketTab?.map((stock) => (
+              <TableRow key={stock.name} stock={stock} watchlist={watchlist} />
             ))}
           </tbody>
         </table>
