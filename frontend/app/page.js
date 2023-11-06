@@ -19,7 +19,7 @@ export default async function Home() {
       <Navbar />
       <Main
         marketNews={marketNews}
-        popularStocks={popularStocks.slice(0, 5)}
+        popularStocks={popularStocks}
         marketMovers={marketMovers}
       />
     </>
