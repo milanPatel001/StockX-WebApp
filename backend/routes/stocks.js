@@ -71,7 +71,7 @@ router.get("/trending", requestCache, async (req, res) => {
 router.get("/marketNews", requestCache, async (req, res) => {
   const opt = {
     method: "GET",
-    url: "https://mboum-finance.p.rapidapi.com/ne/news",
+    url: "https://mboum-finance.p.rapidapi.com/v1/markets/news",
     headers: {
       "X-RapidAPI-Key": process.env.RAPID_API_KEY,
       "X-RapidAPI-Host": "mboum-finance.p.rapidapi.com",
@@ -120,8 +120,8 @@ router.get("/popular", requestCache, async (req, res) => {
 router.get("/growthTechStocks", requestCache, async (req, res) => {
   const opt = {
     method: "GET",
-    url: "https://mboum-finance.p.rapidapi.com/co/collections/growth_technology_stocks",
-    params: { start: "0" },
+    url: "https://mboum-finance.p.rapidapi.com/v1/markets/screener",
+    params: { list: "growth_technology_stocks" },
     headers: {
       "X-RapidAPI-Key": process.env.RAPID_API_KEY,
       "X-RapidAPI-Host": "mboum-finance.p.rapidapi.com",
@@ -145,10 +145,10 @@ router.get("/growthTechStocks", requestCache, async (req, res) => {
 router.get("/bio/:symbol", requestCache, (req, res) => {
   const opt = {
     method: "GET",
-    url: "https://mboum-finance.p.rapidapi.com/mo/module/",
+    url: "https://mboum-finance.p.rapidapi.com/v1/markets/stock/modules",
     params: {
       symbol: req.params.symbol,
-      module: "asset-profile,financial-data,earnings",
+      module: "profile",
     },
     headers: {
       "X-RapidAPI-Key": process.env.RAPID_API_KEY,
@@ -161,7 +161,7 @@ router.get("/bio/:symbol", requestCache, (req, res) => {
       const cacheKey = req.originalUrl;
       redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data));
 
-      res.set(options).send(response.data);
+      res.set(options).send(response.data.body);
     })
     .catch(function (error) {
       console.error(error);
@@ -172,8 +172,8 @@ router.get("/bio/:symbol", requestCache, (req, res) => {
 router.get("/:symbol", requestCache, (req, res) => {
   const opt = {
     method: "GET",
-    url: "https://mboum-finance.p.rapidapi.com/op/option",
-    params: { expiration: "1705622400", symbol: req.params.symbol },
+    url: "https://mboum-finance.p.rapidapi.com/v1/markets/options",
+    params: { expiration: "1731628800", symbol: req.params.symbol },
     headers: {
       "X-RapidAPI-Key": process.env.RAPID_API_KEY,
       "X-RapidAPI-Host": "mboum-finance.p.rapidapi.com",
@@ -184,13 +184,9 @@ router.get("/:symbol", requestCache, (req, res) => {
     .request(opt)
     .then(function (response) {
       const cacheKey = req.originalUrl;
-      redisClient.SETEX(
-        cacheKey,
-        3600,
-        JSON.stringify(response.data.optionChain.result[0])
-      );
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data.body));
 
-      res.set(options).send(response.data.optionChain.result[0]);
+      res.set(options).send(response.data.body);
     })
     .catch(function (error) {
       console.error(error);
