@@ -184,9 +184,9 @@ router.get("/:symbol", requestCache, (req, res) => {
     .request(opt)
     .then(function (response) {
       const cacheKey = req.originalUrl;
-      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data.body));
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data.body[0]));
 
-      res.set(options).send(response.data.body);
+      res.set(options).send(response.data.body[0]);
     })
     .catch(function (error) {
       console.error(error);
@@ -228,7 +228,7 @@ router.get("/stockGraph/:symbol/:period?", requestCache, async (req, res) => {
   console.log(req.params.period);
   const opt = {
     method: "GET",
-    url: "https://mboum-finance.p.rapidapi.com/hi/history",
+    url: "https://mboum-finance.p.rapidapi.com/v1/markets/stock/history",
     params: {
       symbol: req.params.symbol,
       interval: req.params.period || "1d",
@@ -244,9 +244,9 @@ router.get("/stockGraph/:symbol/:period?", requestCache, async (req, res) => {
     .request(opt)
     .then(function (response) {
       const cacheKey = req.originalUrl;
-      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data));
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data.body));
 
-      res.set(options).send(response.data);
+      res.set(options).send(response.data.body);
     })
     .catch(function (error) {
       console.error(error);
