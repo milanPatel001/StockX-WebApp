@@ -159,7 +159,7 @@ router.get("/bio/:symbol", requestCache, (req, res) => {
     .request(opt)
     .then(function (response) {
       const cacheKey = req.originalUrl;
-      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data));
+      redisClient.SETEX(cacheKey, 3600, JSON.stringify(response.data.body));
 
       res.set(options).send(response.data.body);
     })
