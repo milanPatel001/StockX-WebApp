@@ -13,7 +13,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { activeTab, percentSignPage } from "@/utils/extra";
 import { Range, StockMainProps } from "@/backend";
-import Skeleton from "./skeletons/Skeleton";
 import GraphSkeleton from "./skeletons/GraphSkeleton";
 import SideBlockSkeleton from "./skeletons/SideBlockSkeleton";
 
@@ -114,7 +113,7 @@ export default function StockMain({
             </div>
           </div>
 
-          {bio?.assetProfile?.longBusinessSummary && (
+          {bio?.longBusinessSummary && (
             <div>
               <p className="bg-white px-3 pb-4 pt-3 font-semibold text-3xl">
                 About
@@ -125,7 +124,7 @@ export default function StockMain({
                                     first-letter:text-7xl first-letter:font-bold first-letter:text-slate-900
                                         first-letter:mr-3 first-letter:float-left"
                 >
-                  {bio?.assetProfile?.longBusinessSummary}
+                  {bio?.longBusinessSummary}
                 </div>
               </div>
             </div>

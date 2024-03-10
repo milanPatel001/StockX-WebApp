@@ -1,4 +1,3 @@
-import Navbar from "@/components/NavBar";
 import Main from "@/components/Main";
 
 export default async function Home() {
@@ -16,7 +15,6 @@ export default async function Home() {
 
   return (
     <>
-      <Navbar />
       <Main
         marketNews={marketNews}
         popularStocks={popularStocks}

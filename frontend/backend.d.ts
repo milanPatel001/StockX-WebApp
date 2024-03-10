@@ -66,9 +66,7 @@ export type StockData = {
 };
 
 export type BioData = {
-  assetProfile: {
-    longBusinessSummary: string;
-  };
+  longBusinessSummary: string;
 };
 
 export type GraphEpochData = {

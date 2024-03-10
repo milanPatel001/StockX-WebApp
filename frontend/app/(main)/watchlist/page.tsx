@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase";
+import { auth } from "../../../firebase";
 
 import { useEffect, useState } from "react";
 import Navbar from "@/components/NavBar";
@@ -22,7 +22,7 @@ function WatchList() {
       );
       const data = await res.json();
 
-      console.log(data);
+      //console.log(data);
       setStocks(data);
     };
 
@@ -32,7 +32,7 @@ function WatchList() {
 
   return (
     <div className="bg-gray-50 mx-auto">
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="md:w-1/2 md:mx-auto py-3">
         <WatchlistDisplay watchlist={watchlist} />
