@@ -1,4 +1,4 @@
-export async function registerUser(req) {
+export async function registerUser(req: any) {
   const options: RequestInit = {
     method: "POST",
     //url: process.env.DEV_API_URL + "/api/users",
@@ -19,7 +19,7 @@ export async function registerUser(req) {
   return data;
 }
 
-export async function loginUser(req) {
+export async function loginUser(req: any) {
   const options: RequestInit = {
     method: "POST",
     //url: process.env.DEV_API_URL + "/api/login",
@@ -86,7 +86,7 @@ export async function verifyToken(tokenId: string) {
   return data;
 }
 
-export async function addToWatchlist(uid: string, req) {
+export async function addToWatchlist(uid: string, req: any) {
   const options: RequestInit = {
     method: "POST",
     //url: `${process.env.DEV_API_URL}/api/watchlist/${uid}/add`,
